@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unifi Clone Prototype v1.2</title>
+    <title>Unifi Clone Prototype v1.3</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700;800&display=swap');
         body { font-family: 'Pretendard', sans-serif; -webkit-tap-highlight-color: transparent; }
         .neon-card { background: linear-gradient(180deg, #C7FF7D 0%, #D8FFB2 100%); }
         .glass { background: rgba(255, 255, 255, 0.35); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.2); }
@@ -47,7 +47,7 @@
                     </button>
                 </div>
                 
-                <div class="mt-8 glass rounded-2xl p-4 flex justify-between items-center cursor-pointer hover:bg-white/40 transition">
+                <div class="mt-6 glass rounded-2xl p-4 flex justify-between items-center cursor-pointer hover:bg-white/40 transition">
                     <div class="flex items-center gap-3">
                         <div class="w-8 h-8 bg-teal-400 rounded-full flex items-center justify-center text-white text-sm">
                             <i class="fa-solid fa-coins"></i>
@@ -58,125 +58,80 @@
                 </div>
             </section>
 
-            <div class="space-y-3">
-                <div class="bg-white border border-gray-100 p-5 rounded-[24px] flex items-center justify-between shadow-sm active:bg-gray-50 transition cursor-pointer">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-emerald-50 text-emerald-500 rounded-2xl flex items-center justify-center text-2xl">
-                            <i class="fa-solid fa-sack-dollar"></i>
+            <section class="bg-white border border-gray-100 p-5 rounded-[24px] shadow-sm mt-2 relative overflow-hidden">
+                <div class="flex justify-between items-end mb-4">
+                    <div>
+                        <div class="flex items-center gap-1.5">
+                            <h3 class="font-bold text-gray-900 text-[15px]">매일 출석체크</h3>
+                            <span class="bg-red-50 text-red-500 text-[9px] px-1.5 py-0.5 rounded font-bold">HOT</span>
                         </div>
-                        <div>
-                            <p class="text-[11px] text-gray-400 font-medium">USDT 더 많이 보유하고</p>
-                            <p class="text-[15px] font-bold text-gray-900 leading-tight">최대 연 5% 이율 추가 적용 받기</p>
-                        </div>
+                        <p class="text-[11px] text-gray-500 mt-1">7일 연속 출석하고 랜덤 박스 열기!</p>
                     </div>
-                    <i class="fa-solid fa-chevron-right text-[10px] text-gray-300"></i>
+                    <span class="text-[11px] font-bold text-green-600 bg-green-50 px-2 py-1 rounded-md">🔥 3일 연속</span>
                 </div>
 
-                <div class="bg-white border border-gray-100 p-5 rounded-[24px] flex items-center justify-between shadow-sm active:bg-gray-50 transition cursor-pointer">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center text-2xl">
-                            <i class="fa-solid fa-shuffle"></i>
-                        </div>
-                        <div>
-                            <p class="text-[11px] text-gray-400 font-medium">다른 토큰을 USDT로 교환하고</p>
-                            <p class="text-[15px] font-bold text-gray-900 leading-tight">더 많은 이자 받기</p>
-                        </div>
-                    </div>
-                    <i class="fa-solid fa-chevron-right text-[10px] text-gray-300"></i>
+                <div class="relative flex justify-between items-center px-1 mb-5 z-10">
+                    <div class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-[3px] bg-gray-100 rounded-full -z-10"></div>
+                    <div class="absolute left-0 top-1/2 -translate-y-1/2 w-[50%] h-[3px] bg-green-400 rounded-full -z-10"></div>
+                    
+                    <div class="w-7 h-7 rounded-full bg-green-400 text-white flex items-center justify-center text-[10px] font-bold shadow-sm"><i class="fa-solid fa-check"></i></div>
+                    <div class="w-7 h-7 rounded-full bg-green-400 text-white flex items-center justify-center text-[10px] font-bold shadow-sm"><i class="fa-solid fa-check"></i></div>
+                    <div class="w-7 h-7 rounded-full bg-green-400 text-white flex items-center justify-center text-[10px] font-bold shadow-sm"><i class="fa-solid fa-check"></i></div>
+                    <div class="w-7 h-7 rounded-full bg-white border-2 border-green-400 text-green-500 flex items-center justify-center text-[10px] font-bold shadow-sm ring-4 ring-green-50">4</div>
+                    <div class="w-7 h-7 rounded-full bg-gray-100 text-gray-400 flex items-center justify-center text-[10px] font-bold">5</div>
+                    <div class="w-7 h-7 rounded-full bg-gray-100 text-gray-400 flex items-center justify-center text-[10px] font-bold">6</div>
+                    <div class="w-8 h-8 rounded-full bg-yellow-50 text-yellow-500 border border-yellow-200 flex items-center justify-center text-[12px] shadow-sm"><i class="fa-solid fa-gift"></i></div>
                 </div>
-            </div>
 
-            <div class="bg-sky-50 border border-sky-100 p-5 rounded-[24px] flex items-center justify-between mt-4 cursor-pointer active:scale-[0.98] transition">
+                <button id="attendanceBtn" onclick="checkAttendance()" class="w-full bg-green-500 text-white py-3 rounded-[16px] text-sm font-bold active:bg-green-600 active:scale-[0.98] transition shadow-md shadow-green-200">
+                    오늘 출석하고 0.05 USDT 받기
+                </button>
+            </section>
+
+            <div class="bg-[#F4F9FF] border border-[#E2EFFF] p-5 rounded-[24px] flex items-center justify-between mt-6 cursor-pointer active:scale-[0.98] transition">
                 <div>
-                    <h3 class="font-bold text-gray-900 text-sm">매일 게임하고 USDT 보상을 받아 보세요</h3>
-                    <p class="text-xs text-sky-600/70 mt-1 font-medium italic">지금 3,900명이 참여 중이에요</p>
+                    <div class="flex items-center gap-2 mb-1.5">
+                        <h3 class="font-bold text-gray-900 text-sm">오늘의 미니게임</h3>
+                        <span class="bg-blue-100 text-blue-600 text-[9px] px-1.5 py-0.5 rounded font-bold tracking-tight">매일 자정 리셋</span>
+                    </div>
+                    <p class="text-[11px] text-blue-900/60 font-medium">재밌게 놀고 USDT 보상도 모아보세요!</p>
                 </div>
-                <i class="fa-solid fa-chevron-right text-[10px] text-sky-300"></i>
+                <div class="flex flex-col items-end bg-white px-3 py-1.5 rounded-xl shadow-sm border border-blue-50">
+                    <span class="text-[9px] font-bold text-gray-400 mb-0.5">남은 기회</span>
+                    <span class="text-[13px] font-extrabold text-blue-600">3 <span class="text-gray-300 text-[10px]">/ 3</span></span>
+                </div>
             </div>
 
             <div class="grid grid-cols-3 gap-3 py-2">
                 <div class="group cursor-pointer">
                     <div class="aspect-[4/5] bg-gray-100 rounded-2xl overflow-hidden relative shadow-sm group-hover:shadow-md transition">
                         <img src="https://obs.line-scdn.net:443/0hmpC2SfwtMl9-Sy2JQ-5NCCYePC4SOitKB30gJwMOODNNKS4IQ38IUgQjbwsaExNACVImYBswMxNbKyp5QVYiWVMYDgRTGhB-AVILQVsbNwwSKD51QVEISQcbCW4V" class="w-full h-full object-cover">
-                        <div class="absolute bottom-0 w-full bg-black/80 backdrop-blur-sm text-white text-[9px] py-1.5 text-center font-bold tracking-wider">
-                            +0.03 USDT
-                        </div>
+                        <div class="absolute bottom-0 w-full bg-black/80 backdrop-blur-sm text-white text-[9px] py-1.5 text-center font-bold tracking-wider">+0.03 USDT</div>
                     </div>
                     <p class="text-[10px] text-center mt-2 font-bold text-gray-600 truncate px-1">Merge Cat</p>
                 </div>
-
                 <div class="group cursor-pointer">
                     <div class="aspect-[4/5] bg-gray-100 rounded-2xl overflow-hidden relative shadow-sm group-hover:shadow-md transition">
                         <img src="https://obs.line-scdn.net:443/0hkv6lhvyZNFkLFSuPNoxLDlFAOihnZC1MciMmIXZQPjU4dygOcgwgXHNFAw58WjhvfgwwTHBHCAJtRBVOcQwjVC90DGh6cBYOfiMwXHZqDA5kdyhvNhsnbWhuNjMuWQM" class="w-full h-full object-cover">
-                        <div class="absolute bottom-0 w-full bg-black/80 backdrop-blur-sm text-white text-[9px] py-1.5 text-center font-bold tracking-wider">
-                            +0.01 USDT
-                        </div>
+                        <div class="absolute bottom-0 w-full bg-black/80 backdrop-blur-sm text-white text-[9px] py-1.5 text-center font-bold tracking-wider">+0.01 USDT</div>
                     </div>
                     <p class="text-[10px] text-center mt-2 font-bold text-gray-600 truncate px-1">Tap Tap Jello</p>
                 </div>
-
                 <div class="group cursor-pointer">
                     <div class="aspect-[4/5] bg-gray-100 rounded-2xl overflow-hidden relative shadow-sm group-hover:shadow-md transition">
                         <img src="https://obs.line-scdn.net:443/0hDcqSN6NCG0xMKgSacZ1kGxZ_FT0gWwJZNRwJNDFvESB_SAcbNTMidypCRhckTzp9LTIhUSp5JxcqezpbNjMMQWhLI309TzkbORwfSTFVIykpSQBIOzMPWi9RGSZpZiw" class="w-full h-full object-cover">
-                        <div class="absolute bottom-0 w-full bg-black/80 backdrop-blur-sm text-white text-[9px] py-1.5 text-center font-bold tracking-wider">
-                            +0 USDT
-                        </div>
+                        <div class="absolute bottom-0 w-full bg-black/80 backdrop-blur-sm text-white text-[9px] py-1.5 text-center font-bold tracking-wider">+0 USDT</div>
                     </div>
                     <p class="text-[10px] text-center mt-2 font-bold text-gray-600 truncate px-1">Squishy Cat Jump</p>
                 </div>
-
                 <div class="group cursor-pointer">
                     <div class="aspect-[4/5] bg-indigo-100 rounded-2xl overflow-hidden relative shadow-sm group-hover:shadow-md transition">
                         <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=miner" class="w-full h-full object-cover p-2">
-                        <div class="absolute bottom-0 w-full bg-black/80 backdrop-blur-sm text-white text-[9px] py-1.5 text-center font-bold tracking-wider">
-                            +0.05 USDT
-                        </div>
+                        <div class="absolute bottom-0 w-full bg-black/80 backdrop-blur-sm text-white text-[9px] py-1.5 text-center font-bold tracking-wider">+0.05 USDT</div>
                     </div>
                     <p class="text-[10px] text-center mt-2 font-bold text-gray-600 truncate px-1">Crypto Miner</p>
                 </div>
-
                 <div class="group cursor-pointer">
                     <div class="aspect-[4/5] bg-rose-100 rounded-2xl overflow-hidden relative shadow-sm group-hover:shadow-md transition">
                         <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=rush" class="w-full h-full object-cover p-2">
-                        <div class="absolute bottom-0 w-full bg-black/80 backdrop-blur-sm text-white text-[9px] py-1.5 text-center font-bold tracking-wider">
-                            +0.02 USDT
-                        </div>
-                    </div>
-                    <p class="text-[10px] text-center mt-2 font-bold text-gray-600 truncate px-1">Coin Rush</p>
-                </div>
-
-                <div class="group cursor-pointer">
-                    <div class="aspect-[4/5] bg-teal-100 rounded-2xl overflow-hidden relative shadow-sm group-hover:shadow-md transition">
-                        <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=wheel" class="w-full h-full object-cover p-2">
-                        <div class="absolute bottom-0 w-full bg-black/80 backdrop-blur-sm text-white text-[9px] py-1.5 text-center font-bold tracking-wider">
-                            +0.10 USDT
-                        </div>
-                    </div>
-                    <p class="text-[10px] text-center mt-2 font-bold text-gray-600 truncate px-1">Lucky Wheel</p>
-                </div>
-            </div>
-            <div class="h-4"></div>
-        </main>
-
-        <nav class="fixed bottom-0 w-full max-w-[430px] bg-white/90 backdrop-blur-xl border-t border-gray-100 flex justify-around items-center py-3 z-50">
-            <div class="flex flex-col items-center text-zinc-900 cursor-pointer">
-                <i class="fa-solid fa-house text-lg"></i>
-                <span class="text-[10px] font-bold mt-1">홈</span>
-            </div>
-            <div class="flex flex-col items-center text-gray-300 cursor-pointer hover:text-gray-500 transition">
-                <i class="fa-solid fa-shapes text-lg"></i>
-                <span class="text-[10px] font-bold mt-1">Apps</span>
-            </div>
-            <div class="flex flex-col items-center text-gray-300 cursor-pointer hover:text-gray-500 transition">
-                <i class="fa-solid fa-chart-line text-lg"></i>
-                <span class="text-[10px] font-bold mt-1">거래</span>
-            </div>
-            <div class="flex flex-col items-center text-gray-300 cursor-pointer hover:text-gray-500 transition">
-                <i class="fa-solid fa-user text-lg"></i>
-                <span class="text-[10px] font-bold mt-1">내 자산</span>
-            </div>
-        </nav>
-    </div>
-
-</body>
-</html>
+                        <div class="absolute bottom-0 w-full bg-black/80 backdrop-blur-sm
