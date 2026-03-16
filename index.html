@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unifi Clone Prototype</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;800&display=swap');
+        body { font-family: 'Pretendard', sans-serif; -webkit-tap-highlight-color: transparent; }
+        .neon-card { background: linear-gradient(180deg, #C7FF7D 0%, #D8FFB2 100%); }
+        .glass { background: rgba(255, 255, 255, 0.35); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.2); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-gray-50 flex justify-center items-start min-h-screen">
+
+    <div class="w-full max-w-[430px] bg-white min-h-screen shadow-2xl relative flex flex-col pb-24">
+        
+        <header class="flex justify-between items-center px-6 py-4 sticky top-0 bg-white/80 backdrop-blur-md z-40">
+            <h1 class="text-2xl font-extrabold tracking-tighter">unifi</h1>
+            <div class="flex items-center gap-4 text-xl">
+                <i class="fa-solid fa-qrcode cursor-pointer hover:text-green-500 transition"></i>
+                <div class="relative cursor-pointer">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+                </div>
+                <div class="w-8 h-8 bg-purple-400 rounded-full flex items-center justify-center text-white text-sm">
+                    <i class="fa-solid fa-star"></i>
+                </div>
+            </div>
+        </header>
+
+        <main class="px-4 space-y-4">
+            
+            <section class="neon-card rounded-[32px] p-6 shadow-sm">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <div class="flex items-center gap-1 text-sm font-semibold text-gray-800">
+                            보유 USDT <i class="fa-regular fa-circle-question text-[10px] opacity-60"></i>
+                        </div>
+                        <div class="text-4xl font-extrabold mt-1 tracking-tight">4,791.07</div>
+                        <div class="text-xs font-medium text-gray-600 mt-1 opacity-80">연이율 8% 적용중</div>
+                    </div>
+                    <button class="bg-zinc-900 text-white px-5 py-2.5 rounded-full text-sm font-bold active:scale-90 transition transform duration-150">
+                        입금하기
+                    </button>
+                </div>
+                
+                <div class="mt-8 glass rounded-2xl p-4 flex justify-between items-center cursor-pointer hover:bg-white/40 transition">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 bg-teal-400 rounded-full flex items-center justify-center text-white text-sm">
+                            <i class="fa-solid fa-coins"></i>
+                        </div>
+                        <p class="text-sm font-semibold">다음 예상 이자 <span class="text-zinc-900">1.01 USDT</span> 쌓이는 중...</p>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-[10px] text-gray-500"></i>
+                </div>
+            </section>
+
+            <div class="space-y-3">
+                <div class="bg-white border border-gray-100 p-5 rounded-[24px] flex items-center justify-between shadow-sm active:bg-gray-50 transition cursor-pointer">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-emerald-50 text-emerald-500 rounded-2xl flex items-center justify-center text-2xl">
+                            <i class="fa-solid fa-sack-dollar"></i>
+                        </div>
+                        <div>
+                            <p class="text-[11px] text-gray-400 font-medium">USDT 더 많이 보유하고</p>
+                            <p class="text-[15px] font-bold text-gray-900 leading-tight">최대 연 5% 이율 추가 적용 받기</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-[10px] text-gray-300"></i>
+                </div>
+
+                <div class="bg-white border border-gray-100 p-5 rounded-[24px] flex items-center justify-between shadow-sm active:bg-gray-50 transition cursor-pointer">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center text-2xl">
+                            <i class="fa-solid fa-shuffle"></i>
+                        </div>
+                        <div>
+                            <p class="text-[11px] text-gray-400 font-medium">다른 토큰을 USDT로 교환하고</p>
+                            <p class="text-[15px] font-bold text-gray-900 leading-tight">더 많은 이자 받기</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-[10px] text-gray-300"></i>
+                </div>
+            </div>
+
+            <div class="bg-sky-50 border border-sky-100 p-5 rounded-[24px] flex items-center justify-between mt-4 cursor-pointer active:scale-[0.98] transition">
+                <div>
+                    <h3 class="font-bold text-gray-900">매일 게임하고 USDT 보상을 받아 보세요</h3>
+                    <p class="text-xs text-sky-600/70 mt-1 font-medium italic">지금 3,900명이 참여 중이에요</p>
+                </div>
+                <i class="fa-solid fa-chevron-right text-[10px] text-sky-300"></i>
+            </div>
+
+            <div class="flex gap-4 overflow-x-auto no-scrollbar py-2 px-1">
+                <div class="min-w-[140px] group cursor-pointer">
+                    <div class="h-44 bg-pink-100 rounded-2xl overflow-hidden relative shadow-md group-hover:shadow-lg transition">
+                        <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=cat" class="w-full h-full object-cover">
+                        <div class="absolute bottom-0 w-full bg-black/90 text-white text-[10px] py-2 text-center font-bold tracking-widest">
+                            +0.03 USDT
+                        </div>
+                    </div>
+                    <p class="text-[11px] text-center mt-2 font-bold text-gray-500 uppercase">Merge Cat</p>
+                </div>
+                <div class="min-w-[140px] group cursor-pointer">
+                    <div class="h-44 bg-yellow-100 rounded-2xl overflow-hidden relative shadow-md group-hover:shadow-lg transition">
+                        <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=jello" class="w-full h-full object-cover">
+                        <div class="absolute bottom-0 w-full bg-black/90 text-white text-[10px] py-2 text-center font-bold tracking-widest">
+                            +0 USDT
+                        </div>
+                    </div>
+                    <p class="text-[11px] text-center mt-2 font-bold text-gray-500 uppercase">Tap Tap Jello</p>
+                </div>
+                <div class="min-w-[140px] group cursor-pointer">
+                    <div class="h-44 bg-orange-100 rounded-2xl overflow-hidden relative shadow-md group-hover:shadow-lg transition">
+                        <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=jump" class="w-full h-full object-cover">
+                        <div class="absolute bottom-0 w-full bg-black/90 text-white text-[10px] py-2 text-center font-bold tracking-widest">
+                            +0 USDT
+                        </div>
+                    </div>
+                    <p class="text-[11px] text-center mt-2 font-bold text-gray-500 uppercase">Squishy Jump</p>
+                </div>
+            </div>
+        </main>
+
+        <nav class="fixed bottom-0 w-full max-w-[430px] bg-white/90 backdrop-blur-xl border-t border-gray-100 flex justify-around items-center py-3 z-50">
+            <div class="flex flex-col items-center text-zinc-900 cursor-pointer">
+                <i class="fa-solid fa-house text-lg"></i>
+                <span class="text-[10px] font-bold mt-1">홈</span>
+            </div>
+            <div class="flex flex-col items-center text-gray-300 cursor-pointer hover:text-gray-500 transition">
+                <i class="fa-solid fa-shapes text-lg"></i>
+                <span class="text-[10px] font-bold mt-1">Apps</span>
+            </div>
+            <div class="flex flex-col items-center text-gray-300 cursor-pointer hover:text-gray-500 transition">
+                <i class="fa-solid fa-chart-line text-lg"></i>
+                <span class="text-[10px] font-bold mt-1">거래</span>
+            </div>
+            <div class="flex flex-col items-center text-gray-300 cursor-pointer hover:text-gray-500 transition">
+                <i class="fa-solid fa-user text-lg"></i>
+                <span class="text-[10px] font-bold mt-1">내 자산</span>
+            </div>
+        </nav>
+    </div>
+
+</body>
+</html>
