@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unifi Clone Prototype v1.2</title>
+    <title>Unifi Clone Prototype v1.14</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;700;800&display=swap');
         body { font-family: 'Pretendard', sans-serif; -webkit-tap-highlight-color: transparent; }
         .neon-card { background: linear-gradient(180deg, #C7FF7D 0%, #D8FFB2 100%); }
         .glass { background: rgba(255, 255, 255, 0.35); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.2); }
+        .confetti { position: absolute; width: 10px; height: 10px; z-index: 105; pointer-events: none; }
     </style>
 </head>
-<body class="bg-gray-50 flex justify-center items-start min-h-screen">
+<body class="bg-gray-50 flex justify-center items-start min-h-screen relative pb-32 overflow-x-hidden">
 
     <div class="w-full max-w-[430px] bg-white min-h-screen shadow-2xl relative flex flex-col pb-24">
         
@@ -31,7 +32,7 @@
             </div>
         </header>
 
-        <main class="px-4 space-y-4">
+        <main class="px-4 space-y-4 pt-4">
             
             <section class="neon-card rounded-[32px] p-6 shadow-sm">
                 <div class="flex justify-between items-start">
@@ -42,141 +43,365 @@
                         <div class="text-4xl font-extrabold mt-1 tracking-tight">4,791.07</div>
                         <div class="text-xs font-medium text-gray-600 mt-1 opacity-80">연이율 8% 적용중</div>
                     </div>
-                    <button class="bg-zinc-900 text-white px-5 py-2.5 rounded-full text-sm font-bold active:scale-90 transition transform duration-150">
-                        입금하기
-                    </button>
+                    <button class="bg-zinc-900 text-white px-5 py-2.5 rounded-full text-sm font-bold active:scale-90 transition transform duration-150">입금하기</button>
                 </div>
-                
-                <div class="mt-8 glass rounded-2xl p-4 flex justify-between items-center cursor-pointer hover:bg-white/40 transition">
+                <div class="mt-6 glass rounded-2xl p-4 flex justify-between items-center cursor-pointer hover:bg-white/40 transition">
                     <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 bg-teal-400 rounded-full flex items-center justify-center text-white text-sm">
-                            <i class="fa-solid fa-coins"></i>
-                        </div>
+                        <div class="w-8 h-8 bg-teal-400 rounded-full flex items-center justify-center text-white text-sm"><i class="fa-solid fa-coins"></i></div>
                         <p class="text-sm font-semibold">다음 예상 이자 <span class="text-zinc-900">1.01 USDT</span> 쌓이는 중...</p>
                     </div>
                     <i class="fa-solid fa-chevron-right text-[10px] text-gray-500"></i>
                 </div>
             </section>
 
-            <div class="space-y-3">
-                <div class="bg-white border border-gray-100 p-5 rounded-[24px] flex items-center justify-between shadow-sm active:bg-gray-50 transition cursor-pointer">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-emerald-50 text-emerald-500 rounded-2xl flex items-center justify-center text-2xl">
-                            <i class="fa-solid fa-sack-dollar"></i>
+            <section class="bg-white border border-gray-100 p-5 rounded-[24px] shadow-sm mt-2 relative overflow-hidden">
+                <div class="flex justify-between items-end mb-4">
+                    <div>
+                        <div class="flex items-center gap-1.5 mb-1">
+                            <h3 class="font-bold text-gray-900 text-[15px]">매일 출석체크</h3>
+                            <span class="bg-red-50 text-red-500 text-[9px] px-1.5 py-0.5 rounded font-bold">HOT</span>
+                            <div class="flex items-center gap-1 ml-1 bg-gray-50 px-2 py-1 rounded-full border border-gray-200">
+                                <span class="text-[8px] font-bold text-gray-400">TEST</span>
+                                <button id="attToggleBtn" onclick="toggleAttendanceState()" class="w-7 h-3.5 bg-blue-500 rounded-full relative transition-colors duration-300">
+                                    <div id="attToggleKnob" class="w-2.5 h-2.5 bg-white rounded-full absolute left-[15px] top-[2px] transition-all duration-300 shadow-sm"></div>
+                                </button>
+                            </div>
                         </div>
+                        <p class="text-[11px] text-gray-500 mt-1">7일 연속 출석하면 럭키드로우 뽑기!</p>
+                    </div>
+                    <span class="text-[11px] font-bold text-green-600 bg-green-50 px-2 py-1 rounded-md">🔥 7일 연속 완료!</span>
+                </div>
+
+                <div class="relative flex justify-between items-center px-1 mb-5 z-10">
+                    <div class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-[3px] bg-green-400 rounded-full -z-10"></div>
+                    <div class="w-7 h-7 rounded-full bg-green-400 text-white flex items-center justify-center text-[10px] font-bold shadow-sm"><i class="fa-solid fa-check"></i></div>
+                    <div class="w-7 h-7 rounded-full bg-green-400 text-white flex items-center justify-center text-[10px] font-bold shadow-sm"><i class="fa-solid fa-check"></i></div>
+                    <div class="w-7 h-7 rounded-full bg-green-400 text-white flex items-center justify-center text-[10px] font-bold shadow-sm"><i class="fa-solid fa-check"></i></div>
+                    <div class="w-7 h-7 rounded-full bg-green-400 text-white flex items-center justify-center text-[10px] font-bold shadow-sm"><i class="fa-solid fa-check"></i></div>
+                    <div class="w-7 h-7 rounded-full bg-green-400 text-white flex items-center justify-center text-[10px] font-bold shadow-sm"><i class="fa-solid fa-check"></i></div>
+                    <div class="w-7 h-7 rounded-full bg-green-400 text-white flex items-center justify-center text-[10px] font-bold shadow-sm"><i class="fa-solid fa-check"></i></div>
+                    <div id="giftIcon" class="w-9 h-9 rounded-full bg-yellow-400 text-white flex items-center justify-center text-[14px] shadow-lg ring-4 ring-yellow-100 animate-pulse transition-all"><i class="fa-solid fa-gift"></i></div>
+                </div>
+
+                <button id="attLuckyBtn" onclick="openLuckyDraw('attendance')" class="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white py-3.5 rounded-[16px] text-sm font-extrabold active:scale-95 transition-transform shadow-lg shadow-orange-200/50 flex justify-center items-center gap-2">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> 럭키드로우 뽑기
+                </button>
+            </section>
+
+            <section class="py-4">
+                <div class="bg-[#F8FBFF] border border-[#E8F1FF] p-4 rounded-[24px] flex items-center justify-between mb-4 shadow-sm">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-1.5">
+                            <h3 class="font-extrabold text-gray-900 text-[15px]">오늘의 미니게임</h3>
+                            
+                            <span id="countdownBadge" class="bg-red-50 text-red-500 text-[10px] px-2 py-0.5 rounded font-extrabold tracking-tight flex items-center gap-1 transition-colors duration-300">
+                                <i class="fa-regular fa-clock"></i> <span id="countdownTimer">00:00:00</span>
+                            </span>
+
+                            <div class="flex items-center gap-1 ml-1 bg-gray-50 px-2 py-1 rounded-full border border-gray-200">
+                                <span class="text-[8px] font-bold text-gray-400">TEST</span>
+                                <button id="gameToggleBtn" onclick="toggleGameState()" class="w-7 h-3.5 bg-blue-500 rounded-full relative transition-colors duration-300">
+                                    <div id="gameToggleKnob" class="w-2.5 h-2.5 bg-white rounded-full absolute left-[15px] top-[2px] transition-all duration-300 shadow-sm"></div>
+                                </button>
+                            </div>
+                        </div>
+                        <p class="text-[11px] text-blue-900/60 font-medium tracking-tight">재밌게 놀고 USDT 보상도 모아보세요!</p>
+                    </div>
+                    
+                    <div class="bg-white flex flex-col gap-2 px-3 py-2.5 rounded-xl shadow-sm border border-[#E8F1FF] min-w-[110px]">
+                        <div class="flex justify-between items-center text-[10px]">
+                            <span class="text-gray-500 font-medium">받은 보상</span>
+                            <span class="font-extrabold text-blue-600"><span id="receivedReward">0.18</span> <span class="text-[9px] font-semibold text-blue-400">USDT</span></span>
+                        </div>
+                        <div class="w-full h-[1px] bg-gray-100"></div>
+                        <div class="flex justify-between items-center text-[10px]">
+                            <span class="text-gray-400 font-medium">추가 획득 가능</span>
+                            <span class="font-extrabold text-gray-800"><span id="remainReward">0.00</span> <span class="text-[9px] font-semibold text-gray-400">USDT</span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-x-3 gap-y-5">
+                    
+                    <div class="group cursor-pointer active:scale-95 transition-transform" onclick="window.location.href='https://mini-game.unifi.me/mergecat/'">
+                        <div class="aspect-[4/5] bg-gray-100 rounded-[24px] overflow-hidden relative shadow-sm border border-gray-100">
+                            <img src="https://obs.line-scdn.net:443/0hmpC2SfwtMl9-Sy2JQ-5NCCYePC4SOitKB30gJwMOODNNKS4IQ38IUgQjbwsaExNACVImYBswMxNbKyp5QVYiWVMYDgRTGhB-AVILQVsbNwwSKD51QVEISQcbCW4V" class="w-full h-full object-cover">
+                            <div class="absolute bottom-0 w-full bg-[#1A1A1A]/85 backdrop-blur-sm text-[#65D17C] text-[10px] py-2 text-center font-extrabold flex items-center justify-center gap-1.5"><i class="fa-solid fa-circle-check"></i> 미션 완료</div>
+                        </div>
+                        <p class="text-[11px] text-center mt-2.5 font-bold text-gray-900 truncate px-1">Merge Cat</p>
+                    </div>
+                    <div class="group cursor-pointer active:scale-95 transition-transform" onclick="window.location.href='https://mini-game.unifi.me/taptapjello/'">
+                        <div class="aspect-[4/5] bg-gray-100 rounded-[24px] overflow-hidden relative shadow-sm border border-gray-100">
+                            <img src="https://obs.line-scdn.net:443/0hkv6lhvyZNFkLFSuPNoxLDlFAOihnZC1MciMmIXZQPjU4dygOcgwgXHNFAw58WjhvfgwwTHBHCAJtRBVOcQwjVC90DGh6cBYOfiMwXHZqDA5kdyhvNhsnbWhuNjMuWQM" class="w-full h-full object-cover">
+                            <div class="absolute bottom-0 w-full bg-[#1A1A1A]/85 backdrop-blur-sm text-[#65D17C] text-[10px] py-2 text-center font-extrabold flex items-center justify-center gap-1.5"><i class="fa-solid fa-circle-check"></i> 미션 완료</div>
+                        </div>
+                        <p class="text-[11px] text-center mt-2.5 font-bold text-gray-900 truncate px-1">Tap Tap Jello</p>
+                    </div>
+                    <div class="group cursor-pointer active:scale-95 transition-transform" onclick="window.location.href='https://mini-game.unifi.me/squishycatjump/'">
+                        <div class="aspect-[4/5] bg-gray-100 rounded-[24px] overflow-hidden relative shadow-sm border border-gray-100">
+                            <img src="https://obs.line-scdn.net:443/0hDcqSN6NCG0xMKgSacZ1kGxZ_FT0gWwJZNRwJNDFvESB_SAcbNTMidypCRhckTzp9LTIhUSp5JxcqezpbNjMMQWhLI309TzkbORwfSTFVIykpSQBIOzMPWi9RGSZpZiw" class="w-full h-full object-cover">
+                            <div class="absolute bottom-0 w-full bg-[#1A1A1A]/85 backdrop-blur-sm text-[#65D17C] text-[10px] py-2 text-center font-extrabold flex items-center justify-center gap-1.5"><i class="fa-solid fa-circle-check"></i> 미션 완료</div>
+                        </div>
+                        <p class="text-[11px] text-center mt-2.5 font-bold text-gray-900 truncate px-1">Squishy Cat Jump</p>
+                    </div>
+
+                    <div class="group cursor-pointer active:scale-95 transition-transform" onclick="window.location.href='sodapop.html'">
+                        <div class="aspect-[4/5] bg-[#F6F6F6] rounded-[24px] overflow-hidden relative shadow-sm border border-transparent game-target">
+                            <img src="https://obs-beta.line-apps.com:443/0hTsVGL6YfC1xrPhSICM10CzFrBS0HTxJJEggZJBZ7ATBYXBcLEichWk5sM2QHZipqHggYcw5VHQcNbypLESccUU9fM20aWykLHggPWQVtLBQOXE91HiQPSghFCTZOcjw" class="w-full h-full object-cover">
+                            <div class="reward-bar hidden absolute bottom-0 w-full bg-[#1A1A1A] text-white text-[10px] py-2 text-center font-bold tracking-widest">+0.03 USDT</div>
+                            <div class="done-bar absolute bottom-0 w-full bg-[#1A1A1A]/85 backdrop-blur-sm text-[#65D17C] text-[10px] py-2 text-center font-extrabold flex items-center justify-center gap-1.5"><i class="fa-solid fa-circle-check"></i> 미션 완료</div>
+                        </div>
+                        <p class="text-[11px] text-center mt-2.5 font-bold text-gray-900 truncate px-1">Soda Pop</p>
+                    </div>
+                    <div class="group cursor-pointer active:scale-95 transition-transform" onclick="alert('TokiToki Tsuri 게임 플레이 화면으로 이동합니다.')">
+                        <div class="aspect-[4/5] bg-[#F6F6F6] rounded-[24px] overflow-hidden relative shadow-sm border border-transparent game-target">
+                            <img src="https://obs-beta.line-apps.com:443/0hSDUaW6H9DGtoGBL6jxJzPDBNAhoEaRV-ES4eExVdBgdbehA8VwIfW0lzCSQaeC18EiwcagljDSdNeBRNVwUcbUVLMDBFSS5KFS0qdgZLJCdHVzJKChUIfRFIN1oD" class="w-full h-full object-cover">
+                            <div class="reward-bar hidden absolute bottom-0 w-full bg-[#1A1A1A] text-white text-[10px] py-2 text-center font-bold tracking-widest">+0.03 USDT</div>
+                            <div class="done-bar absolute bottom-0 w-full bg-[#1A1A1A]/85 backdrop-blur-sm text-[#65D17C] text-[10px] py-2 text-center font-extrabold flex items-center justify-center gap-1.5"><i class="fa-solid fa-circle-check"></i> 미션 완료</div>
+                        </div>
+                        <p class="text-[11px] text-center mt-2.5 font-bold text-gray-900 truncate px-1">TokiToki Tsuri</p>
+                    </div>
+                    <div class="group cursor-pointer active:scale-95 transition-transform" onclick="alert('Nyante Match 게임 플레이 화면으로 이동합니다.')">
+                        <div class="aspect-[4/5] bg-[#F6F6F6] rounded-[24px] overflow-hidden relative shadow-sm border border-transparent game-target">
+                            <img src="https://obs-beta.line-apps.com:443/0hFGGgUWhHGWh6Hga-fcJmPyJLFxkWbwB9AygLEAdbEwRJfAU_DxAzUxdNMi9UewJrRxBUcRxlGCRffgFORQMJbldNJTNXTztJBQcgehliGDAeRVxBHAQjfgNOIlkR" class="w-full h-full object-cover">
+                            <div class="reward-bar hidden absolute bottom-0 w-full bg-[#1A1A1A] text-white text-[10px] py-2 text-center font-bold tracking-widest">+0.03 USDT</div>
+                            <div class="done-bar absolute bottom-0 w-full bg-[#1A1A1A]/85 backdrop-blur-sm text-[#65D17C] text-[10px] py-2 text-center font-extrabold flex items-center justify-center gap-1.5"><i class="fa-solid fa-circle-check"></i> 미션 완료</div>
+                        </div>
+                        <p class="text-[11px] text-center mt-2.5 font-bold text-gray-900 truncate px-1">Nyante Match</p>
+                    </div>
+                </div>
+
+                <div class="mt-6 transition-all duration-300">
+                    <div id="gameProgressBox" class="hidden bg-gray-50 border border-gray-100 rounded-[20px] p-4 items-center justify-between shadow-sm">
                         <div>
-                            <p class="text-[11px] text-gray-400 font-medium">USDT 더 많이 보유하고</p>
-                            <p class="text-[15px] font-bold text-gray-900 leading-tight">최대 연 5% 이율 추가 적용 받기</p>
+                            <p class="text-[12px] font-extrabold text-gray-800">미니게임 보상 대기중 🎁</p>
+                            <p class="text-[10px] text-gray-500 mt-1 font-medium">3개만 더 완료하면 럭키드로우 오픈!</p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
+                                <div class="w-1/2 h-full bg-blue-500 rounded-full"></div>
+                            </div>
+                            <span class="text-[12px] font-extrabold text-blue-600">3/6</span>
                         </div>
                     </div>
-                    <i class="fa-solid fa-chevron-right text-[10px] text-gray-300"></i>
-                </div>
 
-                <div class="bg-white border border-gray-100 p-5 rounded-[24px] flex items-center justify-between shadow-sm active:bg-gray-50 transition cursor-pointer">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-blue-50 text-blue-500 rounded-2xl flex items-center justify-center text-2xl">
-                            <i class="fa-solid fa-shuffle"></i>
-                        </div>
-                        <div>
-                            <p class="text-[11px] text-gray-400 font-medium">다른 토큰을 USDT로 교환하고</p>
-                            <p class="text-[15px] font-bold text-gray-900 leading-tight">더 많은 이자 받기</p>
-                        </div>
-                    </div>
-                    <i class="fa-solid fa-chevron-right text-[10px] text-gray-300"></i>
+                    <button id="gameLuckyBtn" onclick="openLuckyDraw('game')" class="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-4 rounded-[20px] flex items-center justify-center gap-2 shadow-lg shadow-indigo-200/50 animate-pulse active:scale-95 transition-transform">
+                        <i class="fa-solid fa-cube text-lg"></i>
+                        <span class="text-[14px] font-extrabold">올클리어 럭키드로우 뽑기!</span>
+                    </button>
                 </div>
-            </div>
-
-            <div class="bg-sky-50 border border-sky-100 p-5 rounded-[24px] flex items-center justify-between mt-4 cursor-pointer active:scale-[0.98] transition">
-                <div>
-                    <h3 class="font-bold text-gray-900 text-sm">매일 게임하고 USDT 보상을 받아 보세요</h3>
-                    <p class="text-xs text-sky-600/70 mt-1 font-medium italic">지금 3,900명이 참여 중이에요</p>
-                </div>
-                <i class="fa-solid fa-chevron-right text-[10px] text-sky-300"></i>
-            </div>
-
-            <div class="grid grid-cols-3 gap-3 py-2">
-                <div class="group cursor-pointer">
-                    <div class="aspect-[4/5] bg-gray-100 rounded-2xl overflow-hidden relative shadow-sm group-hover:shadow-md transition">
-                        <img src="https://obs.line-scdn.net:443/0hmpC2SfwtMl9-Sy2JQ-5NCCYePC4SOitKB30gJwMOODNNKS4IQ38IUgQjbwsaExNACVImYBswMxNbKyp5QVYiWVMYDgRTGhB-AVILQVsbNwwSKD51QVEISQcbCW4V" class="w-full h-full object-cover">
-                        <div class="absolute bottom-0 w-full bg-black/80 backdrop-blur-sm text-white text-[9px] py-1.5 text-center font-bold tracking-wider">
-                            +0.03 USDT
-                        </div>
-                    </div>
-                    <p class="text-[10px] text-center mt-2 font-bold text-gray-600 truncate px-1">Merge Cat</p>
-                </div>
-
-                <div class="group cursor-pointer">
-                    <div class="aspect-[4/5] bg-gray-100 rounded-2xl overflow-hidden relative shadow-sm group-hover:shadow-md transition">
-                        <img src="https://obs.line-scdn.net:443/0hkv6lhvyZNFkLFSuPNoxLDlFAOihnZC1MciMmIXZQPjU4dygOcgwgXHNFAw58WjhvfgwwTHBHCAJtRBVOcQwjVC90DGh6cBYOfiMwXHZqDA5kdyhvNhsnbWhuNjMuWQM" class="w-full h-full object-cover">
-                        <div class="absolute bottom-0 w-full bg-black/80 backdrop-blur-sm text-white text-[9px] py-1.5 text-center font-bold tracking-wider">
-                            +0.01 USDT
-                        </div>
-                    </div>
-                    <p class="text-[10px] text-center mt-2 font-bold text-gray-600 truncate px-1">Tap Tap Jello</p>
-                </div>
-
-                <div class="group cursor-pointer">
-                    <div class="aspect-[4/5] bg-gray-100 rounded-2xl overflow-hidden relative shadow-sm group-hover:shadow-md transition">
-                        <img src="https://obs.line-scdn.net:443/0hDcqSN6NCG0xMKgSacZ1kGxZ_FT0gWwJZNRwJNDFvESB_SAcbNTMidypCRhckTzp9LTIhUSp5JxcqezpbNjMMQWhLI309TzkbORwfSTFVIykpSQBIOzMPWi9RGSZpZiw" class="w-full h-full object-cover">
-                        <div class="absolute bottom-0 w-full bg-black/80 backdrop-blur-sm text-white text-[9px] py-1.5 text-center font-bold tracking-wider">
-                            +0 USDT
-                        </div>
-                    </div>
-                    <p class="text-[10px] text-center mt-2 font-bold text-gray-600 truncate px-1">Squishy Cat Jump</p>
-                </div>
-
-                <div class="group cursor-pointer">
-                    <div class="aspect-[4/5] bg-indigo-100 rounded-2xl overflow-hidden relative shadow-sm group-hover:shadow-md transition">
-                        <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=miner" class="w-full h-full object-cover p-2">
-                        <div class="absolute bottom-0 w-full bg-black/80 backdrop-blur-sm text-white text-[9px] py-1.5 text-center font-bold tracking-wider">
-                            +0.05 USDT
-                        </div>
-                    </div>
-                    <p class="text-[10px] text-center mt-2 font-bold text-gray-600 truncate px-1">Crypto Miner</p>
-                </div>
-
-                <div class="group cursor-pointer">
-                    <div class="aspect-[4/5] bg-rose-100 rounded-2xl overflow-hidden relative shadow-sm group-hover:shadow-md transition">
-                        <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=rush" class="w-full h-full object-cover p-2">
-                        <div class="absolute bottom-0 w-full bg-black/80 backdrop-blur-sm text-white text-[9px] py-1.5 text-center font-bold tracking-wider">
-                            +0.02 USDT
-                        </div>
-                    </div>
-                    <p class="text-[10px] text-center mt-2 font-bold text-gray-600 truncate px-1">Coin Rush</p>
-                </div>
-
-                <div class="group cursor-pointer">
-                    <div class="aspect-[4/5] bg-teal-100 rounded-2xl overflow-hidden relative shadow-sm group-hover:shadow-md transition">
-                        <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=wheel" class="w-full h-full object-cover p-2">
-                        <div class="absolute bottom-0 w-full bg-black/80 backdrop-blur-sm text-white text-[9px] py-1.5 text-center font-bold tracking-wider">
-                            +0.10 USDT
-                        </div>
-                    </div>
-                    <p class="text-[10px] text-center mt-2 font-bold text-gray-600 truncate px-1">Lucky Wheel</p>
-                </div>
-            </div>
-            <div class="h-4"></div>
+            </section>
         </main>
 
-        <nav class="fixed bottom-0 w-full max-w-[430px] bg-white/90 backdrop-blur-xl border-t border-gray-100 flex justify-around items-center py-3 z-50">
-            <div class="flex flex-col items-center text-zinc-900 cursor-pointer">
-                <i class="fa-solid fa-house text-lg"></i>
-                <span class="text-[10px] font-bold mt-1">홈</span>
-            </div>
-            <div class="flex flex-col items-center text-gray-300 cursor-pointer hover:text-gray-500 transition">
-                <i class="fa-solid fa-shapes text-lg"></i>
-                <span class="text-[10px] font-bold mt-1">Apps</span>
-            </div>
-            <div class="flex flex-col items-center text-gray-300 cursor-pointer hover:text-gray-500 transition">
-                <i class="fa-solid fa-chart-line text-lg"></i>
-                <span class="text-[10px] font-bold mt-1">거래</span>
-            </div>
-            <div class="flex flex-col items-center text-gray-300 cursor-pointer hover:text-gray-500 transition">
-                <i class="fa-solid fa-user text-lg"></i>
-                <span class="text-[10px] font-bold mt-1">내 자산</span>
-            </div>
+        <nav class="fixed bottom-0 w-full max-w-[430px] bg-white/90 backdrop-blur-xl border-t border-gray-100 flex justify-around items-center py-3 z-40 pb-safe">
+            <div class="flex flex-col items-center text-zinc-900 cursor-pointer"><i class="fa-solid fa-house text-lg"></i><span class="text-[10px] font-bold mt-1">홈</span></div>
+            <div class="flex flex-col items-center text-gray-300 cursor-pointer"><i class="fa-solid fa-shapes text-lg"></i><span class="text-[10px] font-bold mt-1">Apps</span></div>
+            <div class="flex flex-col items-center text-gray-300 cursor-pointer"><i class="fa-solid fa-chart-line text-lg"></i><span class="text-[10px] font-bold mt-1">거래</span></div>
+            <div class="flex flex-col items-center text-gray-300 cursor-pointer"><i class="fa-solid fa-user text-lg"></i><span class="text-[10px] font-bold mt-1">내 자산</span></div>
         </nav>
     </div>
 
+    <div id="luckyModal" class="fixed inset-0 z-[100] hidden flex-col items-center justify-center">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity" onclick="closeLuckyDraw()"></div>
+        <div id="luckyCard" class="bg-white p-8 rounded-[32px] w-[85%] max-w-[340px] relative z-10 flex flex-col items-center transform scale-90 opacity-0 transition-all duration-300 shadow-2xl">
+            <div class="w-20 h-20 bg-yellow-100 rounded-full flex items-center justify-center text-5xl mb-4 shadow-inner" id="modalEmoji">🎉</div>
+            <h2 class="text-2xl font-extrabold text-gray-900 mb-2">럭키드로우 당첨!</h2>
+            <p class="text-gray-600 text-center text-[15px] mb-8 leading-relaxed">
+                <span id="modalDesc">축하합니다.</span><br>
+                <span class="text-blue-600 font-black text-2xl inline-block mt-1" id="modalAmount">0.5 USDT</span>
+                <span class="font-bold text-gray-900">에 당첨됐습니다!</span>
+            </p>
+            <button onclick="closeLuckyDraw()" class="w-full bg-gray-900 text-white py-3.5 rounded-[16px] font-bold text-[15px] active:scale-95 transition-transform shadow-md">보상 받고 닫기</button>
+        </div>
+    </div>
+
+    <script>
+        // === 0. UTC 자정 카운트다운 타이머 ===
+        let isGameRewardClaimed = false; // 보상을 최종 수령했는지 여부
+        
+        function updateCountdown() {
+            const badge = document.getElementById('countdownBadge');
+            const timerEl = document.getElementById('countdownTimer');
+            
+            const now = new Date();
+            const nextMidnight = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1, 0, 0, 0));
+            const diff = nextMidnight - now;
+
+            const h = String(Math.floor((diff / (1000 * 60 * 60)) % 24)).padStart(2, '0');
+            const m = String(Math.floor((diff / 1000 / 60) % 60)).padStart(2, '0');
+            const s = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
+            const timeString = `${h}:${m}:${s}`;
+
+            if (isGameRewardClaimed) {
+                // 럭키드로우 수령 완료 상태 (회색 뱃지)
+                badge.className = "bg-gray-100 text-gray-500 text-[10px] px-2 py-0.5 rounded font-bold tracking-tight flex items-center gap-1 transition-colors duration-300";
+                badge.innerHTML = `<i class="fa-solid fa-check"></i> <span>내일 ${timeString} 리셋</span>`;
+            } else {
+                // 아직 수령 전 상태 (빨간색 경고 뱃지)
+                badge.className = "bg-red-50 text-red-500 text-[10px] px-2 py-0.5 rounded font-extrabold tracking-tight flex items-center gap-1 transition-colors duration-300";
+                badge.innerHTML = `<i class="fa-regular fa-clock"></i> <span>마감 ${timeString} 전</span>`;
+            }
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // === 1. 출석체크 스크립트 ===
+        let isAttReady = true;
+        function toggleAttendanceState() {
+            isAttReady = !isAttReady;
+            const btn = document.getElementById('attToggleBtn');
+            const knob = document.getElementById('attToggleKnob');
+            const luckyBtn = document.getElementById('attLuckyBtn');
+            const giftIcon = document.getElementById('giftIcon');
+
+            if (isAttReady) {
+                btn.classList.replace('bg-gray-300', 'bg-blue-500');
+                knob.classList.replace('left-1', 'left-[15px]');
+                luckyBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> 럭키드로우 뽑기';
+                luckyBtn.className = 'w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white py-3.5 rounded-[16px] text-sm font-extrabold active:scale-95 transition-transform shadow-lg shadow-orange-200/50 flex justify-center items-center gap-2';
+                luckyBtn.onclick = () => openLuckyDraw('attendance');
+                giftIcon.classList.add('animate-pulse');
+            } else {
+                btn.classList.replace('bg-blue-500', 'bg-gray-300');
+                knob.classList.replace('left-[15px]', 'left-1');
+                luckyBtn.innerHTML = '<i class="fa-solid fa-check mr-1"></i> 럭키드로우 완료';
+                luckyBtn.className = 'w-full bg-gray-100 text-gray-400 py-3.5 rounded-[16px] text-sm font-bold cursor-not-allowed flex justify-center items-center gap-2';
+                luckyBtn.onclick = null;
+                giftIcon.classList.remove('animate-pulse');
+            }
+        }
+
+        // === 2. 미니게임 올클리어 스크립트 ===
+        let isGameAllClear = true; 
+        function toggleGameState() {
+            isGameAllClear = !isGameAllClear;
+            // 토글을 누르면 보상 수령 상태도 초기화
+            isGameRewardClaimed = false; 
+            updateCountdown();
+
+            const btn = document.getElementById('gameToggleBtn');
+            const knob = document.getElementById('gameToggleKnob');
+            const progressBox = document.getElementById('gameProgressBox');
+            const gameLuckyBtn = document.getElementById('gameLuckyBtn');
+            
+            document.getElementById('receivedReward').innerText = isGameAllClear ? '0.18' : '0.09';
+            document.getElementById('remainReward').innerText = isGameAllClear ? '0.00' : '0.09';
+
+            const targets = document.querySelectorAll('.game-target');
+            targets.forEach(target => {
+                const rewardBar = target.querySelector('.reward-bar');
+                const doneBar = target.querySelector('.done-bar');
+                if(isGameAllClear) {
+                    rewardBar.classList.add('hidden');
+                    doneBar.classList.remove('hidden');
+                } else {
+                    rewardBar.classList.remove('hidden');
+                    doneBar.classList.add('hidden');
+                }
+            });
+
+            if (isGameAllClear) {
+                btn.classList.replace('bg-gray-300', 'bg-blue-500');
+                knob.classList.replace('left-1', 'left-[15px]');
+                progressBox.classList.remove('flex');
+                progressBox.classList.add('hidden');
+                gameLuckyBtn.classList.remove('hidden');
+                
+                gameLuckyBtn.innerHTML = '<i class="fa-solid fa-cube text-lg"></i><span class="text-[14px] font-extrabold">올클리어 럭키드로우 뽑기!</span>';
+                gameLuckyBtn.className = 'w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-4 rounded-[20px] flex items-center justify-center gap-2 shadow-lg shadow-indigo-200/50 animate-pulse active:scale-95 transition-transform';
+                gameLuckyBtn.onclick = () => openLuckyDraw('game');
+
+            } else {
+                btn.classList.replace('bg-blue-500', 'bg-gray-300');
+                knob.classList.replace('left-[15px]', 'left-1');
+                progressBox.classList.remove('hidden');
+                progressBox.classList.add('flex');
+                gameLuckyBtn.classList.add('hidden');
+            }
+        }
+
+        // === 3. 공통 모달 & 애니메이션 스크립트 ===
+        let currentDrawType = '';
+        function openLuckyDraw(type) {
+            currentDrawType = type;
+            const modal = document.getElementById('luckyModal');
+            const card = document.getElementById('luckyCard');
+            
+            if(type === 'attendance') {
+                document.getElementById('modalDesc').innerHTML = '7일 연속 출석 보상!';
+                document.getElementById('modalAmount').innerHTML = '0.5 USDT';
+                document.getElementById('modalEmoji').innerHTML = '🎁';
+            } else if (type === 'game') {
+                document.getElementById('modalDesc').innerHTML = '미니게임 올클리어 보상!';
+                document.getElementById('modalAmount').innerHTML = '1.0 USDT';
+                document.getElementById('modalEmoji').innerHTML = '🚀';
+            }
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                card.classList.remove('scale-90', 'opacity-0');
+                card.classList.add('scale-100', 'opacity-100');
+            }, 10);
+            createConfetti();
+        }
+
+        function closeLuckyDraw() {
+            const modal = document.getElementById('luckyModal');
+            const card = document.getElementById('luckyCard');
+            card.classList.remove('scale-100', 'opacity-100');
+            card.classList.add('scale-90', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+            
+            if(currentDrawType === 'attendance') {
+                isAttReady = false;
+                document.getElementById('attToggleBtn').classList.replace('bg-blue-500', 'bg-gray-300');
+                document.getElementById('attToggleKnob').classList.replace('left-[15px]', 'left-1');
+                const btn = document.getElementById('attLuckyBtn');
+                btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i> 럭키드로우 완료';
+                btn.className = 'w-full bg-gray-100 text-gray-400 py-3.5 rounded-[16px] text-sm font-bold cursor-not-allowed flex justify-center items-center gap-2';
+                btn.onclick = null;
+                document.getElementById('giftIcon').classList.remove('animate-pulse');
+            } else if (currentDrawType === 'game') {
+                isGameAllClear = false; 
+                isGameRewardClaimed = true; // 럭키드로우 수령 완료 마킹! (타이머 회색으로 변경됨)
+                updateCountdown();
+                
+                document.getElementById('gameToggleBtn').classList.replace('bg-blue-500', 'bg-gray-300');
+                document.getElementById('gameToggleKnob').classList.replace('left-[15px]', 'left-1');
+                
+                const btn = document.getElementById('gameLuckyBtn');
+                btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i> 보상 수령 완료';
+                btn.className = 'w-full bg-gray-100 text-gray-400 p-4 rounded-[20px] flex items-center justify-center gap-2 cursor-not-allowed';
+                btn.onclick = null;
+            }
+        }
+
+        function createConfetti() {
+            const modal = document.getElementById('luckyModal');
+            const colors = ['#FFC700', '#FF3D00', '#4CAF50', '#2196F3', '#9C27B0'];
+            for(let i = 0; i < 60; i++) {
+                let conf = document.createElement('div');
+                conf.className = 'confetti';
+                conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                conf.style.left = '50%';
+                conf.style.top = '50%';
+                conf.style.borderRadius = Math.random() > 0.5 ? '50%' : '0px';
+                modal.appendChild(conf);
+                let angle = Math.random() * Math.PI * 2;
+                let velocity = 50 + Math.random() * 200;
+                let tx = Math.cos(angle) * velocity;
+                let ty = Math.sin(angle) * velocity - 100;
+                conf.animate([
+                    { transform: 'translate(-50%, -50%) scale(1) rotate(0deg)', opacity: 1 },
+                    { transform: `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(0) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+                ], { duration: 1000 + Math.random() * 1500, easing: 'cubic-bezier(0.25, 1, 0.5, 1)' });
+                setTimeout(() => conf.remove(), 2500);
+            }
+        }
+    </script>
 </body>
 </html>
