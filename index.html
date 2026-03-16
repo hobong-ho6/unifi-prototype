@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unifi Clone Prototype v1.14</title>
+    <title>Unifi Clone Prototype - Advanced Attendance</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -69,25 +69,67 @@
                         </div>
                         <p class="text-[11px] text-gray-500 mt-1">7일 연속 출석하면 럭키드로우 뽑기!</p>
                     </div>
-                    <span class="text-[11px] font-bold text-green-600 bg-green-50 px-2 py-1 rounded-md">🔥 7일 연속 완료!</span>
+                    <span class="text-[11px] font-bold text-green-600 bg-green-50 px-2 py-1 rounded-md">🔥 4일 연속 완료!</span>
                 </div>
 
-                <div class="relative flex justify-between items-center px-1 mb-5 z-10">
-                    <div class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-[3px] bg-green-400 rounded-full -z-10"></div>
-                    <div class="w-7 h-7 rounded-full bg-green-400 text-white flex items-center justify-center text-[10px] font-bold shadow-sm"><i class="fa-solid fa-check"></i></div>
-                    <div class="w-7 h-7 rounded-full bg-green-400 text-white flex items-center justify-center text-[10px] font-bold shadow-sm"><i class="fa-solid fa-check"></i></div>
-                    <div class="w-7 h-7 rounded-full bg-green-400 text-white flex items-center justify-center text-[10px] font-bold shadow-sm"><i class="fa-solid fa-check"></i></div>
-                    <div class="w-7 h-7 rounded-full bg-green-400 text-white flex items-center justify-center text-[10px] font-bold shadow-sm"><i class="fa-solid fa-check"></i></div>
-                    <div class="w-7 h-7 rounded-full bg-green-400 text-white flex items-center justify-center text-[10px] font-bold shadow-sm"><i class="fa-solid fa-check"></i></div>
-                    <div class="w-7 h-7 rounded-full bg-green-400 text-white flex items-center justify-center text-[10px] font-bold shadow-sm"><i class="fa-solid fa-check"></i></div>
-                    <div id="giftIcon" class="w-9 h-9 rounded-full bg-yellow-400 text-white flex items-center justify-center text-[14px] shadow-lg ring-4 ring-yellow-100 animate-pulse transition-all"><i class="fa-solid fa-gift"></i></div>
+                <div class="bg-[#F8FBFF] rounded-[16px] p-3.5 flex justify-between items-center mb-6 border border-[#E8F1FF]">
+                    <div class="flex flex-col">
+                        <span class="text-[10px] text-gray-500 font-bold mb-1">지금까지 받은 보상</span>
+                        <span class="text-[14px] font-black text-blue-600 flex items-baseline gap-0.5">
+                            0.04 <span class="text-[10px] font-bold text-blue-400">USDT</span>
+                        </span>
+                    </div>
+                    <div class="w-[1px] h-8 bg-gray-200"></div>
+                    <div class="flex flex-col text-right">
+                        <span class="text-[10px] text-gray-500 font-bold mb-1">마저 받을 수 있는 보상</span>
+                        <span class="text-[14px] font-black text-gray-800 flex items-baseline justify-end gap-0.5">
+                            0.03 <span class="text-[10px] font-bold text-gray-400">USDT</span> <span class="text-[12px] ml-1"> + 🎁</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="relative flex justify-between items-center px-1 mb-6 z-10">
+                    <div class="absolute left-3 right-3 top-[12px] h-[3px] bg-gray-100 rounded-full -z-10"></div>
+                    <div class="absolute left-3 top-[12px] h-[3px] w-[55%] bg-green-400 rounded-full -z-10"></div>
+                    
+                    <div class="flex flex-col items-center gap-1.5">
+                        <div class="w-6 h-6 rounded-full bg-green-400 text-white flex items-center justify-center text-[10px] shadow-sm ring-2 ring-white"><i class="fa-solid fa-check"></i></div>
+                        <span class="text-[9px] text-green-500 font-extrabold">0.01</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-1.5">
+                        <div class="w-6 h-6 rounded-full bg-green-400 text-white flex items-center justify-center text-[10px] shadow-sm ring-2 ring-white"><i class="fa-solid fa-check"></i></div>
+                        <span class="text-[9px] text-green-500 font-extrabold">0.01</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-1.5">
+                        <div class="w-6 h-6 rounded-full bg-green-400 text-white flex items-center justify-center text-[10px] shadow-sm ring-2 ring-white"><i class="fa-solid fa-check"></i></div>
+                        <span class="text-[9px] text-green-500 font-extrabold">0.01</span>
+                    </div>
+                    <div class="flex flex-col items-center gap-1.5">
+                        <div class="w-6 h-6 rounded-full bg-green-400 text-white flex items-center justify-center text-[10px] shadow-sm ring-2 ring-white"><i class="fa-solid fa-check"></i></div>
+                        <span class="text-[9px] text-green-500 font-extrabold">0.01</span>
+                    </div>
+
+                    <div class="flex flex-col items-center gap-1.5 relative">
+                        <div class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse border-2 border-white z-20"></div>
+                        <div class="w-7 h-7 rounded-full bg-blue-500 text-white flex items-center justify-center text-[10px] font-bold shadow-md shadow-blue-200 ring-4 ring-blue-50 relative z-10">오늘</div>
+                        <span class="text-[10px] text-blue-600 font-black">0.01</span>
+                    </div>
+
+                    <div class="flex flex-col items-center gap-1.5">
+                        <div class="w-6 h-6 rounded-full bg-white border-2 border-gray-200 text-gray-400 flex items-center justify-center text-[9px] font-bold">6일</div>
+                        <span class="text-[9px] text-gray-400 font-bold">0.01</span>
+                    </div>
+
+                    <div class="flex flex-col items-center gap-1.5 -mt-1">
+                        <div id="giftIcon" class="w-8 h-8 rounded-full bg-yellow-400 text-white flex items-center justify-center text-[12px] shadow-lg ring-4 ring-yellow-50 animate-pulse transition-all relative z-10"><i class="fa-solid fa-gift"></i></div>
+                        <span class="text-[9px] text-yellow-500 font-black">럭키</span>
+                    </div>
                 </div>
 
                 <button id="attLuckyBtn" onclick="openLuckyDraw('attendance')" class="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white py-3.5 rounded-[16px] text-sm font-extrabold active:scale-95 transition-transform shadow-lg shadow-orange-200/50 flex justify-center items-center gap-2">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i> 럭키드로우 뽑기
+                    <i class="fa-solid fa-coins"></i> 오늘 출석하고 0.01 USDT 받기
                 </button>
             </section>
-
             <section class="py-4">
                 <div class="bg-[#F8FBFF] border border-[#E8F1FF] p-4 rounded-[24px] flex items-center justify-between mb-4 shadow-sm">
                     <div class="flex-1">
@@ -205,11 +247,11 @@
         <div class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity" onclick="closeLuckyDraw()"></div>
         <div id="luckyCard" class="bg-white p-8 rounded-[32px] w-[85%] max-w-[340px] relative z-10 flex flex-col items-center transform scale-90 opacity-0 transition-all duration-300 shadow-2xl">
             <div class="w-20 h-20 bg-yellow-100 rounded-full flex items-center justify-center text-5xl mb-4 shadow-inner" id="modalEmoji">🎉</div>
-            <h2 class="text-2xl font-extrabold text-gray-900 mb-2">럭키드로우 당첨!</h2>
+            <h2 class="text-2xl font-extrabold text-gray-900 mb-2">출석 보상 획득!</h2>
             <p class="text-gray-600 text-center text-[15px] mb-8 leading-relaxed">
                 <span id="modalDesc">축하합니다.</span><br>
-                <span class="text-blue-600 font-black text-2xl inline-block mt-1" id="modalAmount">0.5 USDT</span>
-                <span class="font-bold text-gray-900">에 당첨됐습니다!</span>
+                <span class="text-blue-600 font-black text-2xl inline-block mt-1" id="modalAmount">0.01 USDT</span>
+                <span class="font-bold text-gray-900">를 받았습니다!</span>
             </p>
             <button onclick="closeLuckyDraw()" class="w-full bg-gray-900 text-white py-3.5 rounded-[16px] font-bold text-[15px] active:scale-95 transition-transform shadow-md">보상 받고 닫기</button>
         </div>
@@ -217,7 +259,7 @@
 
     <script>
         // === 0. UTC 자정 카운트다운 타이머 ===
-        let isGameRewardClaimed = false; // 보상을 최종 수령했는지 여부
+        let isGameRewardClaimed = false; 
         
         function updateCountdown() {
             const badge = document.getElementById('countdownBadge');
@@ -233,11 +275,9 @@
             const timeString = `${h}:${m}:${s}`;
 
             if (isGameRewardClaimed) {
-                // 럭키드로우 수령 완료 상태 (회색 뱃지)
                 badge.className = "bg-gray-100 text-gray-500 text-[10px] px-2 py-0.5 rounded font-bold tracking-tight flex items-center gap-1 transition-colors duration-300";
                 badge.innerHTML = `<i class="fa-solid fa-check"></i> <span>내일 ${timeString} 리셋</span>`;
             } else {
-                // 아직 수령 전 상태 (빨간색 경고 뱃지)
                 badge.className = "bg-red-50 text-red-500 text-[10px] px-2 py-0.5 rounded font-extrabold tracking-tight flex items-center gap-1 transition-colors duration-300";
                 badge.innerHTML = `<i class="fa-regular fa-clock"></i> <span>마감 ${timeString} 전</span>`;
             }
@@ -257,14 +297,14 @@
             if (isAttReady) {
                 btn.classList.replace('bg-gray-300', 'bg-blue-500');
                 knob.classList.replace('left-1', 'left-[15px]');
-                luckyBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> 럭키드로우 뽑기';
+                luckyBtn.innerHTML = '<i class="fa-solid fa-coins"></i> 오늘 출석하고 0.01 USDT 받기';
                 luckyBtn.className = 'w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white py-3.5 rounded-[16px] text-sm font-extrabold active:scale-95 transition-transform shadow-lg shadow-orange-200/50 flex justify-center items-center gap-2';
                 luckyBtn.onclick = () => openLuckyDraw('attendance');
                 giftIcon.classList.add('animate-pulse');
             } else {
                 btn.classList.replace('bg-blue-500', 'bg-gray-300');
                 knob.classList.replace('left-[15px]', 'left-1');
-                luckyBtn.innerHTML = '<i class="fa-solid fa-check mr-1"></i> 럭키드로우 완료';
+                luckyBtn.innerHTML = '<i class="fa-solid fa-check mr-1"></i> 오늘 출석 완료';
                 luckyBtn.className = 'w-full bg-gray-100 text-gray-400 py-3.5 rounded-[16px] text-sm font-bold cursor-not-allowed flex justify-center items-center gap-2';
                 luckyBtn.onclick = null;
                 giftIcon.classList.remove('animate-pulse');
@@ -275,7 +315,6 @@
         let isGameAllClear = true; 
         function toggleGameState() {
             isGameAllClear = !isGameAllClear;
-            // 토글을 누르면 보상 수령 상태도 초기화
             isGameRewardClaimed = false; 
             updateCountdown();
 
@@ -328,9 +367,9 @@
             const card = document.getElementById('luckyCard');
             
             if(type === 'attendance') {
-                document.getElementById('modalDesc').innerHTML = '7일 연속 출석 보상!';
-                document.getElementById('modalAmount').innerHTML = '0.5 USDT';
-                document.getElementById('modalEmoji').innerHTML = '🎁';
+                document.getElementById('modalDesc').innerHTML = '오늘의 출석체크 보상!';
+                document.getElementById('modalAmount').innerHTML = '0.01 USDT';
+                document.getElementById('modalEmoji').innerHTML = '💰';
             } else if (type === 'game') {
                 document.getElementById('modalDesc').innerHTML = '미니게임 올클리어 보상!';
                 document.getElementById('modalAmount').innerHTML = '1.0 USDT';
@@ -361,13 +400,13 @@
                 document.getElementById('attToggleBtn').classList.replace('bg-blue-500', 'bg-gray-300');
                 document.getElementById('attToggleKnob').classList.replace('left-[15px]', 'left-1');
                 const btn = document.getElementById('attLuckyBtn');
-                btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i> 럭키드로우 완료';
+                btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i> 오늘 출석 완료';
                 btn.className = 'w-full bg-gray-100 text-gray-400 py-3.5 rounded-[16px] text-sm font-bold cursor-not-allowed flex justify-center items-center gap-2';
                 btn.onclick = null;
                 document.getElementById('giftIcon').classList.remove('animate-pulse');
             } else if (currentDrawType === 'game') {
                 isGameAllClear = false; 
-                isGameRewardClaimed = true; // 럭키드로우 수령 완료 마킹! (타이머 회색으로 변경됨)
+                isGameRewardClaimed = true; 
                 updateCountdown();
                 
                 document.getElementById('gameToggleBtn').classList.replace('bg-blue-500', 'bg-gray-300');
