@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unifi Clone Prototype v1.12</title>
+    <title>Unifi Clone Prototype v1.13</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -60,7 +60,6 @@
                         <div class="flex items-center gap-1.5 mb-1">
                             <h3 class="font-bold text-gray-900 text-[15px]">매일 출석체크</h3>
                             <span class="bg-red-50 text-red-500 text-[9px] px-1.5 py-0.5 rounded font-bold">HOT</span>
-                            
                             <div class="flex items-center gap-1 ml-1 bg-gray-50 px-2 py-1 rounded-full border border-gray-200">
                                 <span class="text-[8px] font-bold text-gray-400">TEST</span>
                                 <button id="attToggleBtn" onclick="toggleAttendanceState()" class="w-7 h-3.5 bg-blue-500 rounded-full relative transition-colors duration-300">
@@ -97,8 +96,8 @@
                             
                             <div class="flex items-center gap-1 bg-gray-50 px-2 py-1 rounded-full border border-gray-200">
                                 <span class="text-[8px] font-bold text-gray-400">TEST</span>
-                                <button id="gameToggleBtn" onclick="toggleGameState()" class="w-7 h-3.5 bg-gray-300 rounded-full relative transition-colors duration-300">
-                                    <div id="gameToggleKnob" class="w-2.5 h-2.5 bg-white rounded-full absolute left-1 top-[2px] transition-all duration-300 shadow-sm"></div>
+                                <button id="gameToggleBtn" onclick="toggleGameState()" class="w-7 h-3.5 bg-blue-500 rounded-full relative transition-colors duration-300">
+                                    <div id="gameToggleKnob" class="w-2.5 h-2.5 bg-white rounded-full absolute left-[15px] top-[2px] transition-all duration-300 shadow-sm"></div>
                                 </button>
                             </div>
                         </div>
@@ -108,12 +107,12 @@
                     <div class="bg-white flex flex-col gap-2 px-3 py-2.5 rounded-xl shadow-sm border border-[#E8F1FF] min-w-[110px]">
                         <div class="flex justify-between items-center text-[10px]">
                             <span class="text-gray-500 font-medium">받은 보상</span>
-                            <span class="font-extrabold text-blue-600"><span id="receivedReward">0.09</span> <span class="text-[9px] font-semibold text-blue-400">USDT</span></span>
+                            <span class="font-extrabold text-blue-600"><span id="receivedReward">0.18</span> <span class="text-[9px] font-semibold text-blue-400">USDT</span></span>
                         </div>
                         <div class="w-full h-[1px] bg-gray-100"></div>
                         <div class="flex justify-between items-center text-[10px]">
                             <span class="text-gray-400 font-medium">추가 획득 가능</span>
-                            <span class="font-extrabold text-gray-800"><span id="remainReward">0.09</span> <span class="text-[9px] font-semibold text-gray-400">USDT</span></span>
+                            <span class="font-extrabold text-gray-800"><span id="remainReward">0.00</span> <span class="text-[9px] font-semibold text-gray-400">USDT</span></span>
                         </div>
                     </div>
                 </div>
@@ -145,31 +144,31 @@
                     <div class="group cursor-pointer active:scale-95 transition-transform" onclick="alert('Soda Pop 게임 플레이 화면으로 이동합니다.')">
                         <div class="aspect-[4/5] bg-[#F6F6F6] rounded-[24px] overflow-hidden relative shadow-sm border border-transparent game-target">
                             <img src="https://obs-beta.line-apps.com:443/0hTsVGL6YfC1xrPhSICM10CzFrBS0HTxJJEggZJBZ7ATBYXBcLEichWk5sM2QHZipqHggYcw5VHQcNbypLESccUU9fM20aWykLHggPWQVtLBQOXE91HiQPSghFCTZOcjw" class="w-full h-full object-cover">
-                            <div class="reward-bar absolute bottom-0 w-full bg-[#1A1A1A] text-white text-[10px] py-2 text-center font-bold tracking-widest">+0.03 USDT</div>
-                            <div class="done-bar hidden absolute bottom-0 w-full bg-[#1A1A1A]/85 backdrop-blur-sm text-[#65D17C] text-[10px] py-2 text-center font-extrabold flex items-center justify-center gap-1.5"><i class="fa-solid fa-circle-check"></i> 미션 완료</div>
+                            <div class="reward-bar hidden absolute bottom-0 w-full bg-[#1A1A1A] text-white text-[10px] py-2 text-center font-bold tracking-widest">+0.03 USDT</div>
+                            <div class="done-bar absolute bottom-0 w-full bg-[#1A1A1A]/85 backdrop-blur-sm text-[#65D17C] text-[10px] py-2 text-center font-extrabold flex items-center justify-center gap-1.5"><i class="fa-solid fa-circle-check"></i> 미션 완료</div>
                         </div>
                         <p class="text-[11px] text-center mt-2.5 font-bold text-gray-900 truncate px-1">Soda Pop</p>
                     </div>
                     <div class="group cursor-pointer active:scale-95 transition-transform" onclick="alert('TokiToki Tsuri 게임 플레이 화면으로 이동합니다.')">
                         <div class="aspect-[4/5] bg-[#F6F6F6] rounded-[24px] overflow-hidden relative shadow-sm border border-transparent game-target">
                             <img src="https://obs-beta.line-apps.com:443/0hSDUaW6H9DGtoGBL6jxJzPDBNAhoEaRV-ES4eExVdBgdbehA8VwIfW0lzCSQaeC18EiwcagljDSdNeBRNVwUcbUVLMDBFSS5KFS0qdgZLJCdHVzJKChUIfRFIN1oD" class="w-full h-full object-cover">
-                            <div class="reward-bar absolute bottom-0 w-full bg-[#1A1A1A] text-white text-[10px] py-2 text-center font-bold tracking-widest">+0.03 USDT</div>
-                            <div class="done-bar hidden absolute bottom-0 w-full bg-[#1A1A1A]/85 backdrop-blur-sm text-[#65D17C] text-[10px] py-2 text-center font-extrabold flex items-center justify-center gap-1.5"><i class="fa-solid fa-circle-check"></i> 미션 완료</div>
+                            <div class="reward-bar hidden absolute bottom-0 w-full bg-[#1A1A1A] text-white text-[10px] py-2 text-center font-bold tracking-widest">+0.03 USDT</div>
+                            <div class="done-bar absolute bottom-0 w-full bg-[#1A1A1A]/85 backdrop-blur-sm text-[#65D17C] text-[10px] py-2 text-center font-extrabold flex items-center justify-center gap-1.5"><i class="fa-solid fa-circle-check"></i> 미션 완료</div>
                         </div>
                         <p class="text-[11px] text-center mt-2.5 font-bold text-gray-900 truncate px-1">TokiToki Tsuri</p>
                     </div>
                     <div class="group cursor-pointer active:scale-95 transition-transform" onclick="alert('Nyante Match 게임 플레이 화면으로 이동합니다.')">
                         <div class="aspect-[4/5] bg-[#F6F6F6] rounded-[24px] overflow-hidden relative shadow-sm border border-transparent game-target">
                             <img src="https://obs-beta.line-apps.com:443/0hFGGgUWhHGWh6Hga-fcJmPyJLFxkWbwB9AygLEAdbEwRJfAU_DxAzUxdNMi9UewJrRxBUcRxlGCRffgFORQMJbldNJTNXTztJBQcgehliGDAeRVxBHAQjfgNOIlkR" class="w-full h-full object-cover">
-                            <div class="reward-bar absolute bottom-0 w-full bg-[#1A1A1A] text-white text-[10px] py-2 text-center font-bold tracking-widest">+0.03 USDT</div>
-                            <div class="done-bar hidden absolute bottom-0 w-full bg-[#1A1A1A]/85 backdrop-blur-sm text-[#65D17C] text-[10px] py-2 text-center font-extrabold flex items-center justify-center gap-1.5"><i class="fa-solid fa-circle-check"></i> 미션 완료</div>
+                            <div class="reward-bar hidden absolute bottom-0 w-full bg-[#1A1A1A] text-white text-[10px] py-2 text-center font-bold tracking-widest">+0.03 USDT</div>
+                            <div class="done-bar absolute bottom-0 w-full bg-[#1A1A1A]/85 backdrop-blur-sm text-[#65D17C] text-[10px] py-2 text-center font-extrabold flex items-center justify-center gap-1.5"><i class="fa-solid fa-circle-check"></i> 미션 완료</div>
                         </div>
                         <p class="text-[11px] text-center mt-2.5 font-bold text-gray-900 truncate px-1">Nyante Match</p>
                     </div>
                 </div>
 
                 <div class="mt-6 transition-all duration-300">
-                    <div id="gameProgressBox" class="bg-gray-50 border border-gray-100 rounded-[20px] p-4 flex items-center justify-between shadow-sm">
+                    <div id="gameProgressBox" class="hidden bg-gray-50 border border-gray-100 rounded-[20px] p-4 items-center justify-between shadow-sm">
                         <div>
                             <p class="text-[12px] font-extrabold text-gray-800">미니게임 보상 대기중 🎁</p>
                             <p class="text-[10px] text-gray-500 mt-1 font-medium">3개만 더 완료하면 럭키드로우 오픈!</p>
@@ -182,7 +181,7 @@
                         </div>
                     </div>
 
-                    <button id="gameLuckyBtn" onclick="openLuckyDraw('game')" class="hidden w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-4 rounded-[20px] flex items-center justify-center gap-2 shadow-lg shadow-indigo-200/50 animate-pulse active:scale-95 transition-transform">
+                    <button id="gameLuckyBtn" onclick="openLuckyDraw('game')" class="w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-4 rounded-[20px] flex items-center justify-center gap-2 shadow-lg shadow-indigo-200/50 animate-pulse active:scale-95 transition-transform">
                         <i class="fa-solid fa-cube text-lg"></i>
                         <span class="text-[14px] font-extrabold">올클리어 럭키드로우 뽑기!</span>
                     </button>
@@ -240,7 +239,8 @@
         }
 
         // === 2. 미니게임 올클리어 스크립트 ===
-        let isGameAllClear = false;
+        // 기본값을 true(올클리어 상태)로 변경
+        let isGameAllClear = true; 
         function toggleGameState() {
             isGameAllClear = !isGameAllClear;
             const btn = document.getElementById('gameToggleBtn');
@@ -268,14 +268,26 @@
             });
 
             if (isGameAllClear) {
+                // 토글 ON (올클리어 상태)
                 btn.classList.replace('bg-gray-300', 'bg-blue-500');
                 knob.classList.replace('left-1', 'left-[15px]');
+                
+                progressBox.classList.remove('flex');
                 progressBox.classList.add('hidden');
                 gameLuckyBtn.classList.remove('hidden');
+                
+                // 완료 버튼으로 바뀌어 있었을 수도 있으므로 원래 버튼 디자인 복구
+                gameLuckyBtn.innerHTML = '<i class="fa-solid fa-cube text-lg"></i><span class="text-[14px] font-extrabold">올클리어 럭키드로우 뽑기!</span>';
+                gameLuckyBtn.className = 'w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-4 rounded-[20px] flex items-center justify-center gap-2 shadow-lg shadow-indigo-200/50 animate-pulse active:scale-95 transition-transform';
+                gameLuckyBtn.onclick = () => openLuckyDraw('game');
+
             } else {
+                // 토글 OFF (3/6 진행 중 상태)
                 btn.classList.replace('bg-blue-500', 'bg-gray-300');
                 knob.classList.replace('left-[15px]', 'left-1');
+                
                 progressBox.classList.remove('hidden');
+                progressBox.classList.add('flex');
                 gameLuckyBtn.classList.add('hidden');
             }
         }
@@ -287,7 +299,6 @@
             const modal = document.getElementById('luckyModal');
             const card = document.getElementById('luckyCard');
             
-            // 타입에 따른 텍스트 분기
             if(type === 'attendance') {
                 document.getElementById('modalDesc').innerHTML = '7일 연속 출석 보상!';
                 document.getElementById('modalAmount').innerHTML = '0.5 USDT';
@@ -317,11 +328,9 @@
                 modal.classList.remove('flex');
             }, 300);
             
-            // 모달 닫을 때 해당 토글을 '완료' 처리
+            // 모달 닫을 때 해당 영역을 '완료(Disabled)' 처리
             if(currentDrawType === 'attendance') {
                 isAttReady = false;
-                toggleAttendanceState(); // 동기화 맞추기 위해 두 번 호출 효과
-                isAttReady = false; 
                 document.getElementById('attToggleBtn').classList.replace('bg-blue-500', 'bg-gray-300');
                 document.getElementById('attToggleKnob').classList.replace('left-[15px]', 'left-1');
                 const btn = document.getElementById('attLuckyBtn');
@@ -330,10 +339,14 @@
                 btn.onclick = null;
                 document.getElementById('giftIcon').classList.remove('animate-pulse');
             } else if (currentDrawType === 'game') {
+                // 게임 올클리어 보상 수령 시
+                isGameAllClear = false; // 토글 상태는 시각적으로 OFF로 전환
+                document.getElementById('gameToggleBtn').classList.replace('bg-blue-500', 'bg-gray-300');
+                document.getElementById('gameToggleKnob').classList.replace('left-[15px]', 'left-1');
+                
                 const btn = document.getElementById('gameLuckyBtn');
                 btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i> 보상 수령 완료';
                 btn.className = 'w-full bg-gray-100 text-gray-400 p-4 rounded-[20px] flex items-center justify-center gap-2 cursor-not-allowed';
-                btn.classList.remove('from-blue-500', 'to-indigo-600', 'text-white', 'shadow-lg', 'animate-pulse');
                 btn.onclick = null;
             }
         }
