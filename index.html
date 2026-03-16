@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unifi Clone Prototype</title>
+    <title>Unifi Clone Prototype v1.2</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -11,7 +11,6 @@
         body { font-family: 'Pretendard', sans-serif; -webkit-tap-highlight-color: transparent; }
         .neon-card { background: linear-gradient(180deg, #C7FF7D 0%, #D8FFB2 100%); }
         .glass { background: rgba(255, 255, 255, 0.35); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.2); }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
 </head>
 <body class="bg-gray-50 flex justify-center items-start min-h-screen">
@@ -89,41 +88,74 @@
 
             <div class="bg-sky-50 border border-sky-100 p-5 rounded-[24px] flex items-center justify-between mt-4 cursor-pointer active:scale-[0.98] transition">
                 <div>
-                    <h3 class="font-bold text-gray-900">매일 게임하고 USDT 보상을 받아 보세요</h3>
+                    <h3 class="font-bold text-gray-900 text-sm">매일 게임하고 USDT 보상을 받아 보세요</h3>
                     <p class="text-xs text-sky-600/70 mt-1 font-medium italic">지금 3,900명이 참여 중이에요</p>
                 </div>
                 <i class="fa-solid fa-chevron-right text-[10px] text-sky-300"></i>
             </div>
 
-            <div class="flex gap-4 overflow-x-auto no-scrollbar py-2 px-1">
-                <div class="min-w-[140px] group cursor-pointer">
-                    <div class="h-44 bg-pink-100 rounded-2xl overflow-hidden relative shadow-md group-hover:shadow-lg transition">
-                        <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=cat" class="w-full h-full object-cover">
-                        <div class="absolute bottom-0 w-full bg-black/90 text-white text-[10px] py-2 text-center font-bold tracking-widest">
+            <div class="grid grid-cols-3 gap-3 py-2">
+                <div class="group cursor-pointer">
+                    <div class="aspect-[4/5] bg-gray-100 rounded-2xl overflow-hidden relative shadow-sm group-hover:shadow-md transition">
+                        <img src="https://obs.line-scdn.net:443/0hmpC2SfwtMl9-Sy2JQ-5NCCYePC4SOitKB30gJwMOODNNKS4IQ38IUgQjbwsaExNACVImYBswMxNbKyp5QVYiWVMYDgRTGhB-AVILQVsbNwwSKD51QVEISQcbCW4V" class="w-full h-full object-cover">
+                        <div class="absolute bottom-0 w-full bg-black/80 backdrop-blur-sm text-white text-[9px] py-1.5 text-center font-bold tracking-wider">
                             +0.03 USDT
                         </div>
                     </div>
-                    <p class="text-[11px] text-center mt-2 font-bold text-gray-500 uppercase">Merge Cat</p>
+                    <p class="text-[10px] text-center mt-2 font-bold text-gray-600 truncate px-1">Merge Cat</p>
                 </div>
-                <div class="min-w-[140px] group cursor-pointer">
-                    <div class="h-44 bg-yellow-100 rounded-2xl overflow-hidden relative shadow-md group-hover:shadow-lg transition">
-                        <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=jello" class="w-full h-full object-cover">
-                        <div class="absolute bottom-0 w-full bg-black/90 text-white text-[10px] py-2 text-center font-bold tracking-widest">
+
+                <div class="group cursor-pointer">
+                    <div class="aspect-[4/5] bg-gray-100 rounded-2xl overflow-hidden relative shadow-sm group-hover:shadow-md transition">
+                        <img src="https://obs.line-scdn.net:443/0hkv6lhvyZNFkLFSuPNoxLDlFAOihnZC1MciMmIXZQPjU4dygOcgwgXHNFAw58WjhvfgwwTHBHCAJtRBVOcQwjVC90DGh6cBYOfiMwXHZqDA5kdyhvNhsnbWhuNjMuWQM" class="w-full h-full object-cover">
+                        <div class="absolute bottom-0 w-full bg-black/80 backdrop-blur-sm text-white text-[9px] py-1.5 text-center font-bold tracking-wider">
+                            +0.01 USDT
+                        </div>
+                    </div>
+                    <p class="text-[10px] text-center mt-2 font-bold text-gray-600 truncate px-1">Tap Tap Jello</p>
+                </div>
+
+                <div class="group cursor-pointer">
+                    <div class="aspect-[4/5] bg-gray-100 rounded-2xl overflow-hidden relative shadow-sm group-hover:shadow-md transition">
+                        <img src="https://obs.line-scdn.net:443/0hDcqSN6NCG0xMKgSacZ1kGxZ_FT0gWwJZNRwJNDFvESB_SAcbNTMidypCRhckTzp9LTIhUSp5JxcqezpbNjMMQWhLI309TzkbORwfSTFVIykpSQBIOzMPWi9RGSZpZiw" class="w-full h-full object-cover">
+                        <div class="absolute bottom-0 w-full bg-black/80 backdrop-blur-sm text-white text-[9px] py-1.5 text-center font-bold tracking-wider">
                             +0 USDT
                         </div>
                     </div>
-                    <p class="text-[11px] text-center mt-2 font-bold text-gray-500 uppercase">Tap Tap Jello</p>
+                    <p class="text-[10px] text-center mt-2 font-bold text-gray-600 truncate px-1">Squishy Cat Jump</p>
                 </div>
-                <div class="min-w-[140px] group cursor-pointer">
-                    <div class="h-44 bg-orange-100 rounded-2xl overflow-hidden relative shadow-md group-hover:shadow-lg transition">
-                        <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=jump" class="w-full h-full object-cover">
-                        <div class="absolute bottom-0 w-full bg-black/90 text-white text-[10px] py-2 text-center font-bold tracking-widest">
-                            +0 USDT
+
+                <div class="group cursor-pointer">
+                    <div class="aspect-[4/5] bg-indigo-100 rounded-2xl overflow-hidden relative shadow-sm group-hover:shadow-md transition">
+                        <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=miner" class="w-full h-full object-cover p-2">
+                        <div class="absolute bottom-0 w-full bg-black/80 backdrop-blur-sm text-white text-[9px] py-1.5 text-center font-bold tracking-wider">
+                            +0.05 USDT
                         </div>
                     </div>
-                    <p class="text-[11px] text-center mt-2 font-bold text-gray-500 uppercase">Squishy Jump</p>
+                    <p class="text-[10px] text-center mt-2 font-bold text-gray-600 truncate px-1">Crypto Miner</p>
+                </div>
+
+                <div class="group cursor-pointer">
+                    <div class="aspect-[4/5] bg-rose-100 rounded-2xl overflow-hidden relative shadow-sm group-hover:shadow-md transition">
+                        <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=rush" class="w-full h-full object-cover p-2">
+                        <div class="absolute bottom-0 w-full bg-black/80 backdrop-blur-sm text-white text-[9px] py-1.5 text-center font-bold tracking-wider">
+                            +0.02 USDT
+                        </div>
+                    </div>
+                    <p class="text-[10px] text-center mt-2 font-bold text-gray-600 truncate px-1">Coin Rush</p>
+                </div>
+
+                <div class="group cursor-pointer">
+                    <div class="aspect-[4/5] bg-teal-100 rounded-2xl overflow-hidden relative shadow-sm group-hover:shadow-md transition">
+                        <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=wheel" class="w-full h-full object-cover p-2">
+                        <div class="absolute bottom-0 w-full bg-black/80 backdrop-blur-sm text-white text-[9px] py-1.5 text-center font-bold tracking-wider">
+                            +0.10 USDT
+                        </div>
+                    </div>
+                    <p class="text-[10px] text-center mt-2 font-bold text-gray-600 truncate px-1">Lucky Wheel</p>
                 </div>
             </div>
+            <div class="h-4"></div>
         </main>
 
         <nav class="fixed bottom-0 w-full max-w-[430px] bg-white/90 backdrop-blur-xl border-t border-gray-100 flex justify-around items-center py-3 z-50">
