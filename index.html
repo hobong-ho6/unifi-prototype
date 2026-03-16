@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unifi Clone Prototype v1.13</title>
+    <title>Unifi Clone Prototype v1.14</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -91,10 +91,14 @@
             <section class="py-4">
                 <div class="bg-[#F8FBFF] border border-[#E8F1FF] p-4 rounded-[24px] flex items-center justify-between mb-4 shadow-sm">
                     <div class="flex-1">
-                        <div class="flex items-center gap-2 mb-1">
+                        <div class="flex items-center gap-2 mb-1.5">
                             <h3 class="font-extrabold text-gray-900 text-[15px]">오늘의 미니게임</h3>
                             
-                            <div class="flex items-center gap-1 bg-gray-50 px-2 py-1 rounded-full border border-gray-200">
+                            <span id="countdownBadge" class="bg-red-50 text-red-500 text-[10px] px-2 py-0.5 rounded font-extrabold tracking-tight flex items-center gap-1 transition-colors duration-300">
+                                <i class="fa-regular fa-clock"></i> <span id="countdownTimer">00:00:00</span>
+                            </span>
+
+                            <div class="flex items-center gap-1 ml-1 bg-gray-50 px-2 py-1 rounded-full border border-gray-200">
                                 <span class="text-[8px] font-bold text-gray-400">TEST</span>
                                 <button id="gameToggleBtn" onclick="toggleGameState()" class="w-7 h-3.5 bg-blue-500 rounded-full relative transition-colors duration-300">
                                     <div id="gameToggleKnob" class="w-2.5 h-2.5 bg-white rounded-full absolute left-[15px] top-[2px] transition-all duration-300 shadow-sm"></div>
@@ -212,6 +216,35 @@
     </div>
 
     <script>
+        // === 0. UTC 자정 카운트다운 타이머 ===
+        let isGameRewardClaimed = false; // 보상을 최종 수령했는지 여부
+        
+        function updateCountdown() {
+            const badge = document.getElementById('countdownBadge');
+            const timerEl = document.getElementById('countdownTimer');
+            
+            const now = new Date();
+            const nextMidnight = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1, 0, 0, 0));
+            const diff = nextMidnight - now;
+
+            const h = String(Math.floor((diff / (1000 * 60 * 60)) % 24)).padStart(2, '0');
+            const m = String(Math.floor((diff / 1000 / 60) % 60)).padStart(2, '0');
+            const s = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
+            const timeString = `${h}:${m}:${s}`;
+
+            if (isGameRewardClaimed) {
+                // 럭키드로우 수령 완료 상태 (회색 뱃지)
+                badge.className = "bg-gray-100 text-gray-500 text-[10px] px-2 py-0.5 rounded font-bold tracking-tight flex items-center gap-1 transition-colors duration-300";
+                badge.innerHTML = `<i class="fa-solid fa-check"></i> <span>내일 ${timeString} 리셋</span>`;
+            } else {
+                // 아직 수령 전 상태 (빨간색 경고 뱃지)
+                badge.className = "bg-red-50 text-red-500 text-[10px] px-2 py-0.5 rounded font-extrabold tracking-tight flex items-center gap-1 transition-colors duration-300";
+                badge.innerHTML = `<i class="fa-regular fa-clock"></i> <span>마감 ${timeString} 전</span>`;
+            }
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
         // === 1. 출석체크 스크립트 ===
         let isAttReady = true;
         function toggleAttendanceState() {
@@ -239,21 +272,21 @@
         }
 
         // === 2. 미니게임 올클리어 스크립트 ===
-        // 기본값을 true(올클리어 상태)로 변경
         let isGameAllClear = true; 
         function toggleGameState() {
             isGameAllClear = !isGameAllClear;
+            // 토글을 누르면 보상 수령 상태도 초기화
+            isGameRewardClaimed = false; 
+            updateCountdown();
+
             const btn = document.getElementById('gameToggleBtn');
             const knob = document.getElementById('gameToggleKnob');
-            
             const progressBox = document.getElementById('gameProgressBox');
             const gameLuckyBtn = document.getElementById('gameLuckyBtn');
             
-            // 대시보드 텍스트 업데이트
             document.getElementById('receivedReward').innerText = isGameAllClear ? '0.18' : '0.09';
             document.getElementById('remainReward').innerText = isGameAllClear ? '0.00' : '0.09';
 
-            // 하단 3개 게임 UI 토글
             const targets = document.querySelectorAll('.game-target');
             targets.forEach(target => {
                 const rewardBar = target.querySelector('.reward-bar');
@@ -268,24 +301,19 @@
             });
 
             if (isGameAllClear) {
-                // 토글 ON (올클리어 상태)
                 btn.classList.replace('bg-gray-300', 'bg-blue-500');
                 knob.classList.replace('left-1', 'left-[15px]');
-                
                 progressBox.classList.remove('flex');
                 progressBox.classList.add('hidden');
                 gameLuckyBtn.classList.remove('hidden');
                 
-                // 완료 버튼으로 바뀌어 있었을 수도 있으므로 원래 버튼 디자인 복구
                 gameLuckyBtn.innerHTML = '<i class="fa-solid fa-cube text-lg"></i><span class="text-[14px] font-extrabold">올클리어 럭키드로우 뽑기!</span>';
                 gameLuckyBtn.className = 'w-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-4 rounded-[20px] flex items-center justify-center gap-2 shadow-lg shadow-indigo-200/50 animate-pulse active:scale-95 transition-transform';
                 gameLuckyBtn.onclick = () => openLuckyDraw('game');
 
             } else {
-                // 토글 OFF (3/6 진행 중 상태)
                 btn.classList.replace('bg-blue-500', 'bg-gray-300');
                 knob.classList.replace('left-[15px]', 'left-1');
-                
                 progressBox.classList.remove('hidden');
                 progressBox.classList.add('flex');
                 gameLuckyBtn.classList.add('hidden');
@@ -328,7 +356,6 @@
                 modal.classList.remove('flex');
             }, 300);
             
-            // 모달 닫을 때 해당 영역을 '완료(Disabled)' 처리
             if(currentDrawType === 'attendance') {
                 isAttReady = false;
                 document.getElementById('attToggleBtn').classList.replace('bg-blue-500', 'bg-gray-300');
@@ -339,8 +366,10 @@
                 btn.onclick = null;
                 document.getElementById('giftIcon').classList.remove('animate-pulse');
             } else if (currentDrawType === 'game') {
-                // 게임 올클리어 보상 수령 시
-                isGameAllClear = false; // 토글 상태는 시각적으로 OFF로 전환
+                isGameAllClear = false; 
+                isGameRewardClaimed = true; // 럭키드로우 수령 완료 마킹! (타이머 회색으로 변경됨)
+                updateCountdown();
+                
                 document.getElementById('gameToggleBtn').classList.replace('bg-blue-500', 'bg-gray-300');
                 document.getElementById('gameToggleKnob').classList.replace('left-[15px]', 'left-1');
                 
