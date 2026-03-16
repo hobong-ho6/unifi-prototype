@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unifi Clone Prototype v1.10</title>
+    <title>Unifi Clone Prototype v1.11</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -62,9 +62,17 @@
             <section class="bg-white border border-gray-100 p-5 rounded-[24px] shadow-sm mt-2 relative overflow-hidden">
                 <div class="flex justify-between items-end mb-4">
                     <div>
-                        <div class="flex items-center gap-1.5">
+                        <div class="flex items-center gap-1.5 mb-1">
                             <h3 class="font-bold text-gray-900 text-[15px]">매일 출석체크</h3>
                             <span class="bg-red-50 text-red-500 text-[9px] px-1.5 py-0.5 rounded font-bold">HOT</span>
+                            
+                            <div class="flex items-center gap-1 ml-1 bg-gray-50 px-2 py-1 rounded-full border border-gray-200">
+                                <span class="text-[8px] font-bold text-gray-400">TEST</span>
+                                <button id="testToggle" onclick="toggleState()" class="w-7 h-3.5 bg-blue-500 rounded-full relative transition-colors duration-300 focus:outline-none flex items-center">
+                                    <div id="toggleKnob" class="w-2.5 h-2.5 bg-white rounded-full absolute left-[15px] transition-all duration-300 shadow-sm"></div>
+                                </button>
+                            </div>
+                            
                         </div>
                         <p class="text-[11px] text-gray-500 mt-1">7일 연속 출석하면 럭키드로우 뽑기!</p>
                     </div>
@@ -81,7 +89,7 @@
                     <div class="w-7 h-7 rounded-full bg-green-400 text-white flex items-center justify-center text-[10px] font-bold shadow-sm"><i class="fa-solid fa-check"></i></div>
                     <div class="w-7 h-7 rounded-full bg-green-400 text-white flex items-center justify-center text-[10px] font-bold shadow-sm"><i class="fa-solid fa-check"></i></div>
                     
-                    <div class="w-9 h-9 rounded-full bg-yellow-400 text-white flex items-center justify-center text-[14px] shadow-lg ring-4 ring-yellow-100 animate-pulse">
+                    <div id="giftIcon" class="w-9 h-9 rounded-full bg-yellow-400 text-white flex items-center justify-center text-[14px] shadow-lg ring-4 ring-yellow-100 animate-pulse transition-all">
                         <i class="fa-solid fa-gift"></i>
                     </div>
                 </div>
@@ -193,6 +201,45 @@
     </div>
 
     <script>
+        // 현재 상태 변수 (true: 럭키드로우 가능 상태, false: 완료 상태)
+        let isReadyToDraw = true;
+
+        // 상태 전환 토글 함수
+        function toggleState() {
+            isReadyToDraw = !isReadyToDraw;
+            updateUIState();
+        }
+
+        // 상태에 따라 버튼과 상자 UI를 업데이트하는 함수
+        function updateUIState() {
+            const toggleBtn = document.getElementById('testToggle');
+            const toggleKnob = document.getElementById('toggleKnob');
+            const luckyBtn = document.getElementById('luckyBtn');
+            const giftIcon = document.getElementById('giftIcon');
+
+            if (isReadyToDraw) {
+                // 대기(Ready) 상태 디자인
+                toggleBtn.classList.replace('bg-gray-300', 'bg-blue-500');
+                toggleKnob.classList.replace('left-1', 'left-[15px]');
+                
+                luckyBtn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> 럭키드로우 뽑기';
+                luckyBtn.className = 'w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white py-3.5 rounded-[16px] text-sm font-extrabold active:scale-95 transition-transform shadow-lg shadow-orange-200/50 flex justify-center items-center gap-2';
+                luckyBtn.onclick = openLuckyDraw;
+                
+                giftIcon.classList.add('animate-pulse');
+            } else {
+                // 완료(Completed) 상태 디자인
+                toggleBtn.classList.replace('bg-blue-500', 'bg-gray-300');
+                toggleKnob.classList.replace('left-[15px]', 'left-1');
+                
+                luckyBtn.innerHTML = '<i class="fa-solid fa-check mr-1"></i> 럭키드로우 완료';
+                luckyBtn.className = 'w-full bg-gray-100 text-gray-400 py-3.5 rounded-[16px] text-sm font-bold cursor-not-allowed flex justify-center items-center gap-2';
+                luckyBtn.onclick = null;
+                
+                giftIcon.classList.remove('animate-pulse');
+            }
+        }
+
         function openLuckyDraw() {
             const modal = document.getElementById('luckyModal');
             const card = document.getElementById('luckyCard');
@@ -214,10 +261,10 @@
                 modal.classList.add('hidden');
                 modal.classList.remove('flex');
             }, 300);
-            const btn = document.getElementById('luckyBtn');
-            btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i> 럭키드로우 완료';
-            btn.className = 'w-full bg-gray-100 text-gray-400 py-3.5 rounded-[16px] text-sm font-bold cursor-not-allowed flex justify-center items-center gap-2';
-            btn.onclick = null;
+            
+            // 모달을 닫을 때 자동으로 상태를 '완료'로 토글시킴
+            isReadyToDraw = false;
+            updateUIState();
         }
 
         function createConfetti() {
