@@ -116,16 +116,40 @@
             padding: 0 20px;
         }
 
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+
         .section-title {
             font-size: 19px;
             font-weight: 800;
-            margin-bottom: 16px;
             line-height: 1.4;
             letter-spacing: -0.3px;
         }
 
-        .highlight { color: var(--red-highlight); }
-        .highlight-green { color: var(--brand-green); }
+        .section-subtitle {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-main);
+        }
+
+        /* 타이머 뱃지 스타일 */
+        .timer-badge {
+            background-color: #ffeeed;
+            color: var(--red-highlight);
+            font-size: 13px;
+            font-weight: 800;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-variant-numeric: tabular-nums; /* 숫자가 깜빡일 때 너비 고정 */
+        }
+
+        .highlight { color: var(--red-highlight); font-weight: 800; }
+        .highlight-green { color: var(--brand-green); font-weight: 800; }
 
         /* --- 캐러셀 & 미션 카드 --- */
         .carousel {
@@ -138,8 +162,12 @@
         }
         .carousel::-webkit-scrollbar { display: none; }
 
+        /* * PM 포인트: 4번째 카드의 1/3을 노출시키기 위해
+         * 카드의 너비를 33.3%가 아닌 28%로 줄였습니다.
+         * 화면에 [ 1 (28%) ] [ 2 (28%) ] [ 3 (28%) ] [ 4 (약 16% 노출) ] 형태로 배치됩니다.
+         */
         .mission-card {
-            flex: 0 0 calc(33.333% - 8px);
+            flex: 0 0 28%; 
             scroll-snap-align: start;
             display: flex;
             flex-direction: column;
@@ -278,37 +306,26 @@
 </div>
 
 <script>
-    // --- State (상태 데이터) ---
     let state = {
         totalUsdt: 12.50,
         luckyTickets: 2,
-        
-        // Mock Mission Data (전달받은 실제 이미지 URL 모두 매핑 완료)
         missions: [
-            // 완료된 미션들 (ALL 탭 노출용)
             { id: 1, name: "Merge Cat", type: "Short", rewardType: "USDT", rewardAmount: 0.03, status: "COMPLETED", endingSoon: false, img: "https://obs.line-scdn.net:443/0hmpC2SfwtMl9-Sy2JQ-5NCCYePC4SOitKB30gJwMOODNNKS4IQ38IUgQjbwsaExNACVImYBswMxNbKyp5QVYiWVMYDgRTGhB-AVILQVsbNwwSKD51QVEISQcbCW4V" },
             { id: 2, name: "Tap Tap Jello", type: "Short", rewardType: "USDT", rewardAmount: 0.03, status: "COMPLETED", endingSoon: false, img: "https://obs.line-scdn.net:443/0hkv6lhvyZNFkLFSuPNoxLDlFAOihnZC1MciMmIXZQPjU4dygOcgwgXHNFAw58WjhvfgwwTHBHCAJtRBVOcQwjVC90DGh6cBYOfiMwXHZqDA5kdyhvNhsnbWhuNjMuWQM" },
             { id: 3, name: "Squishy Cat", type: "Short", rewardType: "USDT", rewardAmount: 0.03, status: "COMPLETED", endingSoon: false, img: "https://obs.line-scdn.net:443/0hDcqSN6NCG0xMKgSacZ1kGxZ_FT0gWwJZNRwJNDFvESB_SAcbNTMidypCRhckTzp9LTIhUSp5JxcqezpbNjMMQWhLI309TzkbORwfSTFVIykpSQBIOzMPWi9RGSZpZiw" },
-
-            // 마감 임박 미션들 (Ending Soon)
             { id: 4, name: "Soda Pop", type: "Short", rewardType: "USDT", rewardAmount: 0.03, status: "AVAILABLE", endingSoon: true, img: "https://obs.line-scdn.net:443/0hbiCjSLeSPUZ-EyONi5JCESZGMzcSYiRTByUvPgNWNypNcSERCyAHXwJsBR4YcQ9nQgkHSwRoPApbcyVgQQ4tQFNAAR1TQh9nAwoLVFhBFXIaSDF0RwkHUAdDBncV" },
             { id: 5, name: "Nyante Match", type: "Big Earn", rewardType: "LUCKY_DRAW", rewardAmount: 0, status: "AVAILABLE", endingSoon: true, img: "https://obs.line-scdn.net:443/0heeauEgtEOkpcDCTbh4hFHQZZNDswfSNfJTooMiFJMCZvbiYdJRYcVyFkAR02QgtdJDoQSzBfLBE6XRtdJhUtR3htAnstaRgdKToTLDFyAic2VxhsKzgDfj93OCB5QA0" },
             { id: 6, name: "Monster Hunt", type: "Short", rewardType: "USDT", rewardAmount: 0.05, status: "AVAILABLE", endingSoon: true, img: "https://obs.line-scdn.net:443/0hxTE3b46CJ3t4SjiRKiFYLCIfKQoUOz5uAXw1AwUPLRdLKDssAVAORBsYegoNKWMsDH4eHR4aGyAeGwZsAlMwdlwrH0oJLwUsDXw3Zh0iEDgVETwkRURrTxQxJRFdBhA" },
             { id: 7, name: "Star Catcher", type: "Short", rewardType: "USDT", rewardAmount: 0.10, status: "AVAILABLE", endingSoon: true, img: "https://obs.line-scdn.net:443/0hRxtQZGmHDVdJKBOSP6FyABN9AyYlWRRCMB4fLzRtBzt6ShEAMDInSjV4JTosc0h1PSYeNS56MQwveSxAMzEaWm1JNWY4TS8APB4nSWlWJW8-ZC9hPiYeYypTDz1sZDo" },
             { id: 8, name: "Galaxy Rider", type: "Big Earn", rewardType: "USDT", rewardAmount: 2.50, status: "AVAILABLE", endingSoon: true, img: "https://obs.line-scdn.net:443/0hNXPmjfYCEXdtFA6qUZ5uIDdBHwYBZQhiFCIDDxBRGxtedg0gFA5dWEtEKiwFTAlCEiJdeQ5oFywLRTBgFw0Gekl1KUYccTMgGCIVehZ_TCwGWx1BGiJdQw5vEx1IWCY" },
-
-            // Short 미션들 
             { id: 9, name: "Color Sort", type: "Short", rewardType: "USDT", rewardAmount: 0.02, status: "AVAILABLE", endingSoon: false, img: "https://obs.line-scdn.net:443/0hmnTX50qRMkFpIS2cVbZNFjF0PDAFUCtUEBcgORRkOC1aQy4WEC8bfglzFRIeQi5OHDkEX09aMw1MQSpnVjwiR0RyDhpEcBBgFjghfhNJJygBQj5oFiw2VxBxCXAC" },
             { id: 10, name: "Block Puzzle", type: "Short", rewardType: "USDT", rewardAmount: 0.04, status: "AVAILABLE", endingSoon: false, img: "https://obs.line-scdn.net:443/0hobiyxCLRME1UAC-180xPGgxVPjw4cSlYLTYiNSlFOiFnYiwaITUZQ3NVCAF6Y3ROaTMjQ3B7MQFxYChrax0gS3lTDBZ5URJsKxoKU3NVGAIkYDx_IA00Wy1QC3w_" },
-
-            // Big Earn 미션들
             { id: 11, name: "TokiToki Tsuri", type: "Big Earn", rewardType: "USDT", rewardAmount: 5.00, status: "AVAILABLE", endingSoon: false, img: "https://obs.line-scdn.net:443/0hDl60raRTG0MLSQRmOMlkFFEcFTJnOAJWcn8JO3YMES84KwcUclNWVmg2PBAmBSoQfkQITmUiDRhtGDpUcVAMTi8oI3J6LDkUfn8PfysiMBR-ETocNnwxVWgyGSkuBSw" },
             { id: 12, name: "RPG Legend", type: "Big Earn", rewardType: "USDT", rewardAmount: 15.00, status: "AVAILABLE", endingSoon: false, img: "https://obs.line-scdn.net:443/0hUSH43g9bCnx1TRWzey91Ky0YBA0ZPBNpDHsYBAgIABBGLxYrSnsZEgkdCygeFShzSXggZRs2CzBQLRJaSlAaelgeNidYHChdClceZQ0YIkgTAzhVSUAOagwdMU0e" },
             { id: 13, name: "Casino Royale", type: "Big Earn", rewardType: "USDT", rewardAmount: 10.00, status: "AVAILABLE", endingSoon: false, img: "https://obs.line-scdn.net:443/0hHIHHvbT6F2Z1MQigPyloMS9kGRcZQA5zDAcFHgh0HQpGUwsxDCs-Z1BhPwMCUiVDFigxcwtjOz0TYDZxDygAa1FQL1cEVDUxAAcTcw1jFTVYfyZMAgctcBZKFQxQfSA" }
         ]
     };
 
-    // --- UI 렌더링 함수 ---
     function renderDashboard() {
         document.getElementById('totalUsdtDisplay').innerHTML = `${state.totalUsdt.toFixed(2)} <span>USDT</span>`;
         document.getElementById('ticketCountDisplay').innerText = `${state.luckyTickets}개 보유`;
@@ -350,7 +367,11 @@
 
             html += `
                 <div class="section">
-                    <div class="section-title">⏳ 곧 미션이 종료돼요<br>${titleStr}</div>
+                    <div class="section-header">
+                        <div class="section-title">⏳ 곧 미션이 종료돼요</div>
+                        <div class="timer-badge" id="midnightTimer">00:00:00</div>
+                    </div>
+                    <div class="section-subtitle">${titleStr}</div>
                     <div class="carousel">${endingMissions.map(createCardHTML).join('')}</div>
                 </div>
             `;
@@ -362,7 +383,8 @@
             const sumUsdt = shortMissions.filter(m => m.rewardType === 'USDT').reduce((sum, m) => sum + m.rewardAmount, 0);
             html += `
                 <div class="section">
-                    <div class="section-title">⚡ 1분씩 투자하고<br>총 <span class="highlight-green">${sumUsdt.toFixed(2)} USDT</span>를 얻어보세요</div>
+                    <div class="section-title">⚡ 1분씩 투자하고</div>
+                    <div class="section-subtitle">총 <span class="highlight-green">${sumUsdt.toFixed(2)} USDT</span>를 얻어보세요</div>
                     <div class="carousel">${shortMissions.map(createCardHTML).join('')}</div>
                 </div>
             `;
@@ -379,7 +401,7 @@
             `;
         }
 
-        // 4. 모든 미션
+        // 4. 모든 미션 (그리드는 3개씩 꽉 차게 노출)
         html += `
             <div class="section">
                 <div class="section-title">📱 모든 USDT 미션 보상</div>
@@ -394,6 +416,33 @@
         `;
 
         container.innerHTML = html;
+        startKstMidnightTimer(); // 렌더링 후 타이머 시작
+    }
+
+    // --- KST 자정 기준 타이머 로직 ---
+    function startKstMidnightTimer() {
+        const timerEl = document.getElementById('midnightTimer');
+        if (!timerEl) return;
+
+        setInterval(() => {
+            const now = new Date();
+            // 현재 시간을 KST(UTC+9) 기준으로 변환 계산
+            const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+            const kstTime = new Date(utc + (3600000 * 9));
+
+            // KST 기준 다가오는 자정 구하기
+            const nextMidnight = new Date(kstTime);
+            nextMidnight.setHours(24, 0, 0, 0);
+
+            const diff = nextMidnight - kstTime;
+
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+            // 포맷팅 (00:00:00)
+            timerEl.innerText = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        }, 1000);
     }
 
     // --- 럭키드로우 로직 ---
