@@ -2,444 +2,439 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unifi Clone Prototype - Unified Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Unifi Reward Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;700;800&display=swap');
-        body { font-family: 'Pretendard', sans-serif; -webkit-tap-highlight-color: transparent; }
-        .neon-card { background: linear-gradient(180deg, #C7FF7D 0%, #D8FFB2 100%); }
-        .glass { background: rgba(255, 255, 255, 0.35); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.2); }
-        .confetti { position: absolute; width: 10px; height: 10px; z-index: 105; pointer-events: none; }
+        :root {
+            --bg-color: #f5f6f8;
+            --card-bg: #ffffff;
+            --text-main: #111111;
+            --text-sub: #666666;
+            --brand-green: #00c880;
+            --dark-bar: #1a1a1a;
+            --mint-bg: #eaf7f0; /* 첨부 이미지의 배경색 추출 */
+            --red-highlight: #ff3b30;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            color: var(--text-main);
+        }
+
+        .container {
+            max-width: 480px; /* 모바일 뷰 고정 */
+            margin: 0 auto;
+            background-color: var(--card-bg);
+            min-height: 100vh;
+            padding-bottom: 50px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            overflow-x: hidden;
+        }
+
+        /* --- 대시보드 영역 (이미지 레퍼런스 완벽 반영) --- */
+        .dashboard {
+            background-color: var(--mint-bg);
+            padding: 30px 20px 24px 20px;
+            border-bottom-left-radius: 24px;
+            border-bottom-right-radius: 24px;
+            margin-bottom: 32px;
+        }
+
+        .dashboard-title {
+            font-size: 15px;
+            color: #555;
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+
+        .usdt-amount {
+            font-size: 40px;
+            font-weight: 900;
+            color: var(--text-main);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: baseline; /* USDT 텍스트와 하단 라인 맞춤 */
+            gap: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .usdt-amount span { 
+            font-size: 24px; 
+            color: var(--brand-green); 
+            font-weight: 800; 
+        }
+
+        .lucky-draw-box {
+            background: #fff;
+            padding: 18px 20px;
+            border-radius: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        }
+
+        .lucky-info {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .lucky-title { 
+            font-size: 15px; 
+            font-weight: 800; 
+            color: var(--text-main); 
+        }
         
-        /* 토글 커스텀 CSS */
-        .toggle-checkbox:checked + .toggle-label { background-color: #3b82f6; }
-        .toggle-checkbox:checked + .toggle-label .toggle-dot { transform: translateX(100%); }
+        .lucky-count { 
+            font-size: 18px; 
+            font-weight: 800; 
+            color: var(--red-highlight); 
+        }
+
+        .btn-draw {
+            background-color: var(--red-highlight);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 24px;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        .btn-draw:active { transform: scale(0.95); }
+        .btn-draw:disabled { background-color: #ccc; cursor: not-allowed; }
+
+        /* --- 섹션 영역 --- */
+        .section {
+            margin-bottom: 36px;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            font-size: 19px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            line-height: 1.4;
+            letter-spacing: -0.3px;
+        }
+
+        .highlight { color: var(--red-highlight); }
+        .highlight-green { color: var(--brand-green); }
+
+        /* --- 캐러셀 & 미션 카드 --- */
+        .carousel {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding-bottom: 12px;
+            scrollbar-width: none; /* Firefox */
+        }
+        .carousel::-webkit-scrollbar { display: none; } /* Chrome */
+
+        .mission-card {
+            flex: 0 0 calc(33.333% - 8px); /* 한 화면에 3개 노출, 스크롤 유도 */
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .img-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: 16px;
+            overflow: hidden;
+            background-color: #f0f0f0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .check-badge {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            width: 22px;
+            height: 22px;
+            background-color: var(--brand-green);
+            color: white;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .reward-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 7px 0;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 800;
+            color: white;
+        }
+
+        .reward-bar.available { background-color: rgba(26, 26, 26, 0.95); }
+        .reward-bar.completed { background-color: var(--brand-green); }
+
+        .app-name {
+            font-size: 13px;
+            font-weight: 700;
+            text-align: center;
+            color: var(--text-main);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding: 0 4px;
+        }
+
+        /* --- 모달 팝업 --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background: white;
+            padding: 32px 24px;
+            border-radius: 24px;
+            text-align: center;
+            width: 280px;
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-icon { font-size: 52px; margin-bottom: 16px; }
+        .modal-title { font-size: 22px; font-weight: 800; margin-bottom: 12px; }
+        .modal-desc { font-size: 16px; color: var(--text-sub); margin-bottom: 28px; line-height: 1.5; }
+        
+        .btn-close {
+            background-color: var(--text-main);
+            color: white;
+            border: none;
+            padding: 16px;
+            width: 100%;
+            border-radius: 14px;
+            font-size: 17px;
+            font-weight: 800;
+            cursor: pointer;
+        }
     </style>
 </head>
-<body class="bg-gray-50 flex justify-center items-start min-h-screen relative pb-32 overflow-x-hidden">
+<body>
 
-    <div class="w-full max-w-[430px] bg-white min-h-screen shadow-2xl relative flex flex-col pb-24">
-        
-        <header class="flex justify-between items-center px-6 py-4 sticky top-0 bg-white/80 backdrop-blur-md z-40">
-            <h1 class="text-2xl font-extrabold tracking-tighter">unifi</h1>
-            <div class="flex items-center gap-4 text-xl">
-                <i class="fa-solid fa-qrcode cursor-pointer hover:text-green-500 transition"></i>
-                <div class="relative cursor-pointer">
-                    <i class="fa-regular fa-bell"></i>
-                    <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
-                </div>
-                <div class="w-8 h-8 bg-purple-400 rounded-full flex items-center justify-center text-white text-sm">
-                    <i class="fa-solid fa-star"></i>
-                </div>
+<div class="container">
+    <div class="dashboard">
+        <div class="dashboard-title">지금까지 얻은 USDT 리워드</div>
+        <div class="usdt-amount" id="totalUsdtDisplay">
+            12.50 <span>USDT</span>
+        </div>
+        <div class="lucky-draw-box">
+            <div class="lucky-info">
+                <span class="lucky-title">🎁 럭키드로우 뽑기권</span>
+                <span class="lucky-count" id="ticketCountDisplay">2개 보유</span>
             </div>
-        </header>
-
-        <main class="px-4 space-y-4 pt-4">
-            
-            <section class="neon-card rounded-[32px] p-6 shadow-sm">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <div class="flex items-center gap-1 text-sm font-semibold text-gray-800">
-                            보유 USDT <i class="fa-regular fa-circle-question text-[10px] opacity-60"></i>
-                        </div>
-                        <div class="text-4xl font-extrabold mt-1 tracking-tight">4,791.07</div>
-                        <div class="text-xs font-medium text-gray-600 mt-1 opacity-80">연이율 8% 적용중</div>
-                    </div>
-                    <button class="bg-zinc-900 text-white px-5 py-2.5 rounded-full text-sm font-bold active:scale-90 transition transform duration-150">입금하기</button>
-                </div>
-            </section>
-
-            <section class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-[28px] p-5 shadow-lg text-white relative overflow-hidden mt-2">
-                <div class="absolute top-0 right-0 w-32 h-32 bg-blue-500/20 blur-3xl rounded-full"></div>
-                
-                <div class="flex justify-between items-center mb-4 relative z-10">
-                    <h3 class="font-black text-[16px] flex items-center gap-2">
-                        <i class="fa-solid fa-chart-pie text-blue-400"></i> 오늘의 미션 대시보드
-                    </h3>
-                    <span id="countdownBadge" class="bg-white/10 px-2.5 py-1 rounded-full text-[10px] font-bold border border-white/5 flex items-center gap-1">
-                        <i class="fa-regular fa-clock"></i> <span id="countdownTimer">00:00:00</span>
-                    </span>
-                </div>
-
-                <div class="flex bg-white/5 rounded-[16px] p-4 border border-white/10 backdrop-blur-md mb-4 relative z-10">
-                    <div class="flex-1 flex flex-col">
-                        <span class="text-[10px] text-white/50 font-bold mb-1">지금까지 모은 보상</span>
-                        <span class="text-[22px] font-black text-emerald-400 leading-none">
-                            <span id="totalEarned">0.13</span> <span class="text-[10px] text-emerald-400/70 font-bold">USDT</span>
-                        </span>
-                    </div>
-                    <div class="w-[1px] bg-white/10 mx-4"></div>
-                    <div class="flex-1 flex flex-col text-right">
-                        <span class="text-[10px] text-white/50 font-bold mb-1">더 받을 수 있는 보상</span>
-                        <span class="text-[22px] font-black text-white leading-none">
-                            <span id="totalRemain">0.12</span> <span class="text-[10px] text-white/70 font-bold">USDT</span>
-                        </span>
-                    </div>
-                </div>
-
-                <div class="flex justify-between items-center bg-yellow-400/10 border border-yellow-400/30 rounded-2xl p-3 relative z-10">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 bg-gradient-to-b from-yellow-300 to-yellow-500 rounded-full flex items-center justify-center text-white shadow-lg shadow-yellow-500/30 text-lg border-2 border-yellow-100">
-                            <i class="fa-solid fa-ticket"></i>
-                        </div>
-                        <div class="flex flex-col">
-                            <span class="text-[11px] text-yellow-200 font-bold">보너스 럭키드로우</span>
-                            <span class="text-[14px] font-black text-yellow-400">보유 <span id="ticketCount" class="text-[16px]">0</span> 개</span>
-                        </div>
-                    </div>
-                    <button id="topLuckyBtn" onclick="useTicket()" disabled class="bg-white/10 text-white/40 px-5 py-2.5 rounded-xl text-sm font-bold cursor-not-allowed transition-all">
-                        뽑기
-                    </button>
-                </div>
-            </section>
-
-            <section class="bg-white border border-gray-100 p-5 rounded-[24px] shadow-sm mt-2">
-                <div class="flex justify-between items-end mb-6">
-                    <div>
-                        <div class="flex items-center gap-1.5 mb-1">
-                            <h3 class="font-bold text-gray-900 text-[15px]">데일리 출석 미션</h3>
-                            
-                            <div class="flex items-center gap-2 ml-1 bg-gray-50 px-2 py-1 rounded-full border border-gray-200">
-                                <span class="text-[8px] font-bold text-gray-400">TEST</span>
-                                <div class="flex items-center gap-1 group relative">
-                                    <span class="text-[8px] font-bold text-gray-400">T1</span>
-                                    <div class="relative inline-block w-6 h-3.5 align-middle select-none">
-                                        <input type="checkbox" id="attTodayToggle" onchange="syncSystem()" class="toggle-checkbox absolute block w-3.5 h-3.5 rounded-full bg-white border-4 appearance-none cursor-pointer z-10"/>
-                                        <label for="attTodayToggle" class="toggle-label block overflow-hidden h-3.5 rounded-full bg-gray-300 cursor-pointer transition-colors duration-300">
-                                            <span class="toggle-dot absolute block w-3.5 h-3.5 rounded-full bg-white shadow inset-y-0 left-0 transition-transform duration-300"></span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-1 group relative">
-                                    <span class="text-[8px] font-bold text-gray-400">T2</span>
-                                    <div class="relative inline-block w-6 h-3.5 align-middle select-none">
-                                        <input type="checkbox" id="attAllToggle" onchange="syncSystem()" class="toggle-checkbox absolute block w-3.5 h-3.5 rounded-full bg-white border-4 appearance-none cursor-pointer z-10"/>
-                                        <label for="attAllToggle" class="toggle-label block overflow-hidden h-3.5 rounded-full bg-gray-300 cursor-pointer transition-colors duration-300">
-                                            <span class="toggle-dot absolute block w-3.5 h-3.5 rounded-full bg-white shadow inset-y-0 left-0 transition-transform duration-300"></span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <p class="text-[11px] text-gray-500 mt-1">7일 연속 출석하면 럭키드로우 티켓 1장!</p>
-                    </div>
-                    <span id="attBadge" class="text-[11px] font-bold text-gray-400 bg-gray-50 px-2 py-1 rounded-md">대기 중</span>
-                </div>
-
-                <div class="relative flex justify-between items-center px-1 mb-6 z-10">
-                    <div class="absolute left-3 right-3 top-[12px] h-[3px] bg-gray-100 rounded-full -z-10"></div>
-                    <div id="attProgressBar" class="absolute left-3 top-[12px] h-[3px] w-[55%] bg-green-400 rounded-full -z-10 transition-all duration-300"></div>
-                    
-                    <div id="attStepsContainer" class="flex justify-between w-full">
-                        </div>
-                </div>
-
-                <button id="attMainBtn" onclick="handleAttendanceClick()" class="w-full bg-blue-600 text-white py-3.5 rounded-[16px] text-[13px] font-extrabold active:scale-95 transition-all flex justify-center items-center gap-2">
-                    오늘 출석 보상 받기
-                </button>
-            </section>
-
-            <section class="py-4">
-                <div class="bg-[#F8FBFF] border border-[#E8F1FF] p-4 rounded-[24px] flex items-center justify-between mb-4 shadow-sm">
-                    <div class="flex-1">
-                        <div class="flex items-center gap-2 mb-1.5">
-                            <h3 class="font-extrabold text-gray-900 text-[15px]">오늘의 미니게임</h3>
-                            
-                            <div class="flex items-center gap-1 ml-1 bg-white px-2 py-1 rounded-full border border-blue-100">
-                                <span class="text-[8px] font-bold text-blue-400">TEST</span>
-                                <div class="relative inline-block w-6 h-3.5 align-middle select-none">
-                                    <input type="checkbox" id="gameToggle" onchange="syncSystem()" class="toggle-checkbox absolute block w-3.5 h-3.5 rounded-full bg-white border-4 appearance-none cursor-pointer z-10"/>
-                                    <label for="gameToggle" class="toggle-label block overflow-hidden h-3.5 rounded-full bg-gray-300 cursor-pointer transition-colors duration-300">
-                                        <span class="toggle-dot absolute block w-3.5 h-3.5 rounded-full bg-white shadow inset-y-0 left-0 transition-transform duration-300"></span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <p class="text-[11px] text-blue-900/60 font-medium tracking-tight">6개 완료하면 럭키드로우 티켓 1장!</p>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-3 gap-x-3 gap-y-5" id="gameGridContainer">
-                    </div>
-
-                <div class="mt-6 transition-all duration-300">
-                    <div id="gameProgressBox" class="bg-gray-50 border border-gray-100 rounded-[20px] p-4 flex items-center justify-between shadow-sm">
-                        <div>
-                            <p class="text-[12px] font-extrabold text-gray-800" id="gameProgressTitle">미니게임 진행중 🏃</p>
-                            <p class="text-[10px] text-gray-500 mt-1 font-medium" id="gameProgressDesc">3개만 더 완료하면 티켓 획득!</p>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <div class="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
-                                <div id="gameProgressBar" class="h-full bg-blue-500 rounded-full transition-all" style="width: 50%;"></div>
-                            </div>
-                            <span class="text-[12px] font-extrabold text-blue-600" id="gameProgressText">3/6</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
-
-        <nav class="fixed bottom-0 w-full max-w-[430px] bg-white/90 backdrop-blur-xl border-t border-gray-100 flex justify-around items-center py-3 z-40 pb-safe">
-            <div class="flex flex-col items-center text-zinc-900 cursor-pointer"><i class="fa-solid fa-house text-lg"></i><span class="text-[10px] font-bold mt-1">홈</span></div>
-            <div class="flex flex-col items-center text-gray-300 cursor-pointer"><i class="fa-solid fa-shapes text-lg"></i><span class="text-[10px] font-bold mt-1">Apps</span></div>
-            <div class="flex flex-col items-center text-gray-300 cursor-pointer"><i class="fa-solid fa-chart-line text-lg"></i><span class="text-[10px] font-bold mt-1">거래</span></div>
-            <div class="flex flex-col items-center text-gray-300 cursor-pointer"><i class="fa-solid fa-user text-lg"></i><span class="text-[10px] font-bold mt-1">내 자산</span></div>
-        </nav>
-    </div>
-
-    <div id="luckyModal" class="fixed inset-0 z-[100] hidden flex-col items-center justify-center">
-        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity" onclick="closeLuckyDraw()"></div>
-        <div id="luckyCard" class="bg-white p-8 rounded-[32px] w-[85%] max-w-[340px] relative z-10 flex flex-col items-center transform scale-90 opacity-0 transition-all duration-300 shadow-2xl">
-            <div class="w-20 h-20 bg-yellow-100 rounded-full flex items-center justify-center text-5xl mb-4 shadow-inner">🎉</div>
-            <h2 class="text-2xl font-extrabold text-gray-900 mb-2">보너스 당첨!</h2>
-            <p class="text-gray-600 text-center text-[15px] mb-8 leading-relaxed">
-                통합 미션 보너스 럭키드로우<br>
-                <span class="text-blue-600 font-black text-3xl inline-block mt-2">1.50 USDT</span>
-            </p>
-            <button onclick="closeLuckyDraw()" class="w-full bg-gray-900 text-white py-3.5 rounded-[16px] font-bold text-[15px] active:scale-95 transition-transform shadow-md">보상 받고 닫기</button>
+            <button class="btn-draw" id="btnDraw" onclick="executeLuckyDraw()">뽑기</button>
         </div>
     </div>
 
-    <script>
-        // === 0. 상태 변수 및 타이머 ===
-        let usedTickets = 0;
-        let isTodayAttDone = false; // "오늘 출석 보상 받기" 버튼 클릭 여부
+    <div id="missionContainer"></div>
+</div>
 
-        function updateCountdown() {
-            const timerEl = document.getElementById('countdownTimer');
-            const now = new Date();
-            const nextMidnight = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1, 0, 0, 0));
-            const diff = nextMidnight - now;
-            const h = String(Math.floor((diff / (1000 * 60 * 60)) % 24)).padStart(2, '0');
-            const m = String(Math.floor((diff / 1000 / 60) % 60)).padStart(2, '0');
-            const s = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
-            if(timerEl) timerEl.innerText = `${h}:${m}:${s}`;
-        }
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
+<div class="modal-overlay" id="drawModal">
+    <div class="modal-content">
+        <div class="modal-icon">🎉</div>
+        <div class="modal-title">축하합니다!</div>
+        <div class="modal-desc">럭키드로우에 당첨되어<br><strong style="color:#00c880; font-size: 20px;" id="wonAmount"></strong>를 획득했습니다.</div>
+        <button class="btn-close" onclick="closeModal()">확인</button>
+    </div>
+</div>
 
-        // === 1. 핵심 통합 동기화 로직 ===
-        const GAMES = [
-            { id: 1, name: "Merge Cat", img: "https://obs.line-scdn.net:443/0hmpC2SfwtMl9-Sy2JQ-5NCCYePC4SOitKB30gJwMOODNNKS4IQ38IUgQjbwsaExNACVImYBswMxNbKyp5QVYiWVMYDgRTGhB-AVILQVsbNwwSKD51QVEISQcbCW4V" },
-            { id: 2, name: "Tap Tap Jello", img: "https://obs.line-scdn.net:443/0hkv6lhvyZNFkLFSuPNoxLDlFAOihnZC1MciMmIXZQPjU4dygOcgwgXHNFAw58WjhvfgwwTHBHCAJtRBVOcQwjVC90DGh6cBYOfiMwXHZqDA5kdyhvNhsnbWhuNjMuWQM" },
-            { id: 3, name: "Squishy Cat", img: "https://obs.line-scdn.net:443/0hDcqSN6NCG0xMKgSacZ1kGxZ_FT0gWwJZNRwJNDFvESB_SAcbNTMidypCRhckTzp9LTIhUSp5JxcqezpbNjMMQWhLI309TzkbORwfSTFVIykpSQBIOzMPWi9RGSZpZiw" },
-            { id: 4, name: "Soda Pop", img: "https://obs-beta.line-apps.com:443/0hTsVGL6YfC1xrPhSICM10CzFrBS0HTxJJEggZJBZ7ATBYXBcLEichWk5sM2QHZipqHggYcw5VHQcNbypLESccUU9fM20aWykLHggPWQVtLBQOXE91HiQPSghFCTZOcjw" },
-            { id: 5, name: "TokiToki Tsuri", img: "https://obs-beta.line-apps.com:443/0hSDUaW6H9DGtoGBL6jxJzPDBNAhoEaRV-ES4eExVdBgdbehA8VwIfW0lzCSQaeC18EiwcagljDSdNeBRNVwUcbUVLMDBFSS5KFS0qdgZLJCdHVzJKChUIfRFIN1oD" },
-            { id: 6, name: "Nyante Match", img: "https://obs-beta.line-apps.com:443/0hFGGgUWhHGWh6Hga-fcJmPyJLFxkWbwB9AygLEAdbEwRJfAU_DxAzUxdNMi9UewJrRxBUcRxlGCRffgFORQMJbldNJTNXTztJBQcgehliGDAeRVxBHAQjfgNOIlkR" }
-        ];
+<script>
+    // --- State (상태 데이터) ---
+    let state = {
+        totalUsdt: 12.50,
+        luckyTickets: 2,
+        
+        // Mock Mission Data (섹션별 5개 이상 노출되도록 구성)
+        missions: [
+            // 완료된 미션들 (ALL 탭 노출용)
+            { id: 1, name: "Merge Cat", type: "Short", rewardType: "USDT", rewardAmount: 0.03, status: "COMPLETED", endingSoon: false, img: "https://picsum.photos/id/1025/200/200" },
+            { id: 2, name: "Tap Tap Jello", type: "Short", rewardType: "USDT", rewardAmount: 0.03, status: "COMPLETED", endingSoon: false, img: "https://picsum.photos/id/1084/200/200" },
+            { id: 3, name: "Squishy Cat", type: "Short", rewardType: "USDT", rewardAmount: 0.03, status: "COMPLETED", endingSoon: false, img: "https://picsum.photos/id/1074/200/200" },
 
-        function syncSystem() {
-            // 1) 토글 상태 읽기
-            const attT1 = document.getElementById('attTodayToggle').checked;
-            const attT2 = document.getElementById('attAllToggle').checked;
-            const gameT = document.getElementById('gameToggle').checked;
+            // 마감 임박 미션들 (Ending Soon - 최소 5개)
+            { id: 4, name: "Soda Pop", type: "Short", rewardType: "USDT", rewardAmount: 0.03, status: "AVAILABLE", endingSoon: true, img: "https://obs.line-scdn.net:443/0hbiCjSLeSPUZ-EyONi5JCESZGMzcSYiRTByUvPgNWNypNcSERCyAHXwJsBR4YcQ9nQgkHSwRoPApbcyVgQQ4tQFNAAR1TQh9nAwoLVFhBFXIaSDF0RwkHUAdDBncV" },
+            { id: 5, name: "Nyante Match", type: "Big Earn", rewardType: "LUCKY_DRAW", rewardAmount: 0, status: "AVAILABLE", endingSoon: true, img: "https://obs.line-scdn.net:443/0heeauEgtEOkpcDCTbh4hFHQZZNDswfSNfJTooMiFJMCZvbiYdJRYcVyFkAR02QgtdJDoQSzBfLBE6XRtdJhUtR3htAnstaRgdKToTLDFyAic2VxhsKzgDfj93OCB5QA0" },
+            { id: 6, name: "Monster Hunt", type: "Short", rewardType: "USDT", rewardAmount: 0.05, status: "AVAILABLE", endingSoon: true, img: "https://obs.line-scdn.net:443/0hxTE3b46CJ3t4SjiRKiFYLCIfKQoUOz5uAXw1AwUPLRdLKDssAVAORBsYegoNKWMsDH4eHR4aGyAeGwZsAlMwdlwrH0oJLwUsDXw3Zh0iEDgVETwkRURrTxQxJRFdBhA" },
+            { id: 7, name: "Star Catcher", type: "Short", rewardType: "USDT", rewardAmount: 0.10, status: "AVAILABLE", endingSoon: true, img: "https://picsum.photos/id/1015/200/200" },
+            { id: 8, name: "Galaxy Rider", type: "Big Earn", rewardType: "USDT", rewardAmount: 2.50, status: "AVAILABLE", endingSoon: true, img: "https://picsum.photos/id/1022/200/200" },
 
-            // 2) 출석 상태 계산
-            let attDays = 4; // 기본 4일 완료
-            if (attT1 || isTodayAttDone) attDays = 5;
-            if (attT2) attDays = 7;
+            // Short 미션들 (Short - 4, 6, 7번 포함, 총 5개 이상)
+            { id: 9, name: "Color Sort", type: "Short", rewardType: "USDT", rewardAmount: 0.02, status: "AVAILABLE", endingSoon: false, img: "https://picsum.photos/id/1040/200/200" },
+            { id: 10, name: "Block Puzzle", type: "Short", rewardType: "USDT", rewardAmount: 0.04, status: "AVAILABLE", endingSoon: false, img: "https://picsum.photos/id/1050/200/200" },
 
-            // 3) 게임 상태 계산
-            let gameCount = 3; // 기본 3개 완료
-            if (gameT) gameCount = 6;
+            // Big Earn 미션들 (Big Earn - 5, 8번 포함, 총 5개 이상)
+            { id: 11, name: "TokiToki Tsuri", type: "Big Earn", rewardType: "USDT", rewardAmount: 5.00, status: "AVAILABLE", endingSoon: false, img: "https://obs.line-scdn.net:443/0hDl60raRTG0MLSQRmOMlkFFEcFTJnOAJWcn8JO3YMES84KwcUclNWVmg2PBAmBSoQfkQITmUiDRhtGDpUcVAMTi8oI3J6LDkUfn8PfysiMBR-ETocNnwxVWgyGSkuBSw" },
+            { id: 12, name: "RPG Legend", type: "Big Earn", rewardType: "USDT", rewardAmount: 15.00, status: "AVAILABLE", endingSoon: false, img: "https://obs.line-scdn.net:443/0hUSH43g9bCnx1TRWzey91Ky0YBA0ZPBNpDHsYBAgIABBGLxYrSnsZEgkdCygeFShzSXggZRs2CzBQLRJaSlAaelgeNidYHChdClceZQ0YIkgTAzhVSUAOagwdMU0e" },
+            { id: 13, name: "Casino Royale", type: "Big Earn", rewardType: "USDT", rewardAmount: 10.00, status: "AVAILABLE", endingSoon: false, img: "https://obs.line-scdn.net:443/0hHIHHvbT6F2Z1MQigPyloMS9kGRcZQA5zDAcFHgh0HQpGUwsxDCs-Z1BhPwMCUiVDFigxcwtjOz0TYDZxDygAa1FQL1cEVDUxAAcTcw1jFTVYfyZMAgctcBZKFQxQfSA" }
+        ]
+    };
 
-            // ==========================================
-            // [A] 출석체크 UI 업데이트
-            // ==========================================
-            const attContainer = document.getElementById('attStepsContainer');
-            const attBadge = document.getElementById('attBadge');
-            const attBtn = document.getElementById('attMainBtn');
-            const attPBar = document.getElementById('attProgressBar');
+    // --- UI 렌더링 함수 ---
+    function renderDashboard() {
+        document.getElementById('totalUsdtDisplay').innerHTML = `${state.totalUsdt.toFixed(2)} <span>USDT</span>`;
+        document.getElementById('ticketCountDisplay').innerText = `${state.luckyTickets}개 보유`;
+        document.getElementById('btnDraw').disabled = state.luckyTickets <= 0;
+    }
+
+    function createCardHTML(mission) {
+        const isCompleted = mission.status === 'COMPLETED';
+        const rewardText = mission.rewardType === 'LUCKY_DRAW' ? '뽑기권 1장' : `+${mission.rewardAmount.toFixed(2)} USDT`;
+        const barClass = isCompleted ? 'completed' : 'available';
+        const barText = isCompleted ? `완료 +${mission.rewardAmount}` : rewardText;
+        const checkBadge = isCompleted ? `<div class="check-badge">✓</div>` : '';
+
+        return `
+            <div class="mission-card" onclick="alert('${mission.name} 미션 페이지로 이동합니다.')">
+                <div class="img-wrapper">
+                    <img src="${mission.img}" alt="${mission.name}">
+                    ${checkBadge}
+                    <div class="reward-bar ${barClass}">${barText}</div>
+                </div>
+                <div class="app-name">${mission.name}</div>
+            </div>
+        `;
+    }
+
+    function renderSections() {
+        const container = document.getElementById('missionContainer');
+        let html = '';
+
+        // 1. 곧 종료되는 미션 (Ending Soon - 최소 5개 구성됨)
+        const endingMissions = state.missions.filter(m => m.endingSoon && m.status === 'AVAILABLE');
+        if (endingMissions.length > 0) {
+            const sumUsdt = endingMissions.filter(m => m.rewardType === 'USDT').reduce((sum, m) => sum + m.rewardAmount, 0);
+            const hasDraw = endingMissions.some(m => m.rewardType === 'LUCKY_DRAW');
             
-            attContainer.innerHTML = '';
-            attPBar.style.width = ((attDays - 1) / 6 * 100) + '%';
+            let titleStr = `총 <span class="highlight">${sumUsdt.toFixed(2)} USDT</span>`;
+            if (hasDraw) titleStr += `와 <span class="highlight">뽑기권</span>`;
+            titleStr += `을 얻어보세요`;
 
-            for (let i = 1; i <= 7; i++) {
-                let isDone = i <= attDays;
-                let isToday = i === 5 && attDays === 4; // 4일 완료 상태일 때 5일차가 오늘
-                let isGift = i === 7;
-                
-                let bgColor, content, textColor;
+            html += `
+                <div class="section">
+                    <div class="section-title">⏳ 곧 미션이 종료돼요<br>${titleStr}</div>
+                    <div class="carousel">${endingMissions.map(createCardHTML).join('')}</div>
+                </div>
+            `;
+        }
 
-                if (isDone && !isGift) {
-                    bgColor = 'bg-green-400 ring-2 ring-white shadow-sm';
-                    content = '<i class="fa-solid fa-check text-white text-[10px]"></i>';
-                    textColor = 'text-green-500';
-                } else if (isDone && isGift) {
-                    bgColor = 'bg-yellow-400 ring-2 ring-white shadow-sm';
-                    content = '<i class="fa-solid fa-gift text-white text-[10px]"></i>';
-                    textColor = 'text-yellow-500 font-black';
-                } else if (isToday) {
-                    bgColor = 'bg-blue-500 ring-2 ring-white shadow-sm animate-pulse';
-                    content = '<span class="text-white text-[10px] font-bold">0.01</span>';
-                    textColor = 'text-blue-500 font-black';
-                } else {
-                    bgColor = isGift ? 'bg-amber-100' : 'bg-white border-2 border-gray-200';
-                    content = isGift ? '<i class="fa-solid fa-gift text-amber-500 text-[12px]"></i>' : `<span class="text-gray-400 text-[9px] font-bold">0.01</span>`;
-                    textColor = isGift ? 'text-amber-500 font-black' : 'text-gray-400 font-bold';
-                }
+        // 2. Short 미션 (최소 5개 구성됨)
+        const shortMissions = state.missions.filter(m => m.type === 'Short' && m.status === 'AVAILABLE');
+        if (shortMissions.length > 0) {
+            const sumUsdt = shortMissions.filter(m => m.rewardType === 'USDT').reduce((sum, m) => sum + m.rewardAmount, 0);
+            html += `
+                <div class="section">
+                    <div class="section-title">⚡ 1분씩 투자하고<br>총 <span class="highlight-green">${sumUsdt.toFixed(2)} USDT</span>를 얻어보세요</div>
+                    <div class="carousel">${shortMissions.map(createCardHTML).join('')}</div>
+                </div>
+            `;
+        }
 
-                attContainer.innerHTML += `
-                    <div class="flex flex-col items-center gap-1.5">
-                        <div class="w-6 h-6 rounded-full flex items-center justify-center relative z-10 transition-all ${bgColor}">
-                            ${content}
+        // 3. Big Earn 미션 (최소 5개 구성됨)
+        const bigEarnMissions = state.missions.filter(m => m.type === 'Big Earn' && m.status === 'AVAILABLE');
+        if (bigEarnMissions.length > 0) {
+            html += `
+                <div class="section">
+                    <div class="section-title">💎 큰 재미 큰 보상</div>
+                    <div class="carousel">${bigEarnMissions.map(createCardHTML).join('')}</div>
+                </div>
+            `;
+        }
+
+        // 4. 모든 미션 (완료 포함 - 그리드 형태)
+        html += `
+            <div class="section">
+                <div class="section-title">📱 모든 USDT 미션 보상</div>
+                <div class="carousel" style="flex-wrap: wrap; gap: 16px 2%;">
+                    ${state.missions.map(m => `
+                        <div style="flex: 0 0 32%; margin-bottom: 8px;">
+                            ${createCardHTML(m).replace('class="mission-card"', 'class="mission-card" style="width:100%"')}
                         </div>
-                        <span class="text-[9px] ${textColor}">${isGift ? '럭키' : i+'일'}</span>
-                    </div>
-                `;
-            }
+                    `).join('')}
+                </div>
+            </div>
+        `;
 
-            if (attDays === 7) {
-                attBadge.className = "text-[11px] font-bold text-green-600 bg-green-50 px-2 py-1 rounded-md";
-                attBadge.innerHTML = "🔥 7일 연속 완료!";
-                attBtn.className = "w-full bg-gray-100 text-gray-400 py-3.5 rounded-[16px] text-[13px] font-extrabold cursor-not-allowed";
-                attBtn.innerHTML = "7일 출석 완료! 상단에서 티켓을 확인하세요";
-                attBtn.onclick = null;
-            } else if (attDays === 5) {
-                attBadge.className = "text-[11px] font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-md";
-                attBadge.innerHTML = "🔥 5일 출석 완료";
-                attBtn.className = "w-full bg-gray-100 text-gray-400 py-3.5 rounded-[16px] text-[13px] font-extrabold cursor-not-allowed";
-                attBtn.innerHTML = "오늘 보상 수령 완료";
-                attBtn.onclick = null;
-            } else {
-                attBadge.className = "text-[11px] font-bold text-gray-400 bg-gray-50 px-2 py-1 rounded-md";
-                attBadge.innerHTML = "대기 중";
-                attBtn.className = "w-full bg-blue-600 text-white py-3.5 rounded-[16px] text-[13px] font-extrabold active:scale-95 transition-all flex justify-center items-center gap-2 cursor-pointer";
-                attBtn.innerHTML = "오늘 출석 보상 받기";
-                attBtn.onclick = () => { isTodayAttDone = true; syncSystem(); };
-            }
+        container.innerHTML = html;
+    }
 
-            // ==========================================
-            // [B] 미니게임 UI 업데이트
-            // ==========================================
-            const gameContainer = document.getElementById('gameGridContainer');
-            gameContainer.innerHTML = '';
-            
-            for (let i = 0; i < GAMES.length; i++) {
-                let game = GAMES[i];
-                let isDone = i < gameCount;
-                
-                gameContainer.innerHTML += `
-                    <div class="group cursor-pointer active:scale-95 transition-transform relative">
-                        <div class="aspect-[4/5] bg-gray-100 rounded-[24px] overflow-hidden relative shadow-sm border border-gray-100">
-                            <img src="${game.img}" class="w-full h-full object-cover">
-                            ${isDone ? `
-                            <div class="absolute top-1.5 right-1.5 w-6 h-6 bg-emerald-500/90 backdrop-blur-sm rounded-lg flex items-center justify-center text-white text-[10px] shadow-lg border border-white/20">
-                                <i class="fa-solid fa-check"></i>
-                            </div>
-                            <div class="absolute bottom-0 inset-x-0 bg-emerald-500 text-white text-[8px] font-black py-0.5 text-center">완료 +0.03</div>
-                            ` : `
-                            <div class="absolute bottom-0 w-full bg-[#1A1A1A] text-white text-[10px] py-2 text-center font-bold tracking-widest">+0.03 USDT</div>
-                            `}
-                        </div>
-                        <p class="text-[9px] text-center mt-1.5 font-bold text-gray-600 truncate">${game.name}</p>
-                    </div>
-                `;
-            }
+    // --- 럭키드로우 로직 ---
+    let pendingReward = 0;
 
-            const gameTitle = document.getElementById('gameProgressTitle');
-            const gameDesc = document.getElementById('gameProgressDesc');
-            const gameText = document.getElementById('gameProgressText');
-            const gamePBar = document.getElementById('gameProgressBar');
-            
-            gameText.innerText = `${gameCount}/6`;
-            gamePBar.style.width = (gameCount / 6 * 100) + '%';
-            
-            if (gameCount === 6) {
-                gameTitle.innerHTML = "올클리어 완료! 🎉";
-                gameTitle.className = "text-[12px] font-extrabold text-blue-600";
-                gameDesc.innerText = "상단 대시보드에서 럭키 티켓을 확인하세요!";
-                gamePBar.className = "h-full bg-emerald-500 rounded-full transition-all";
-            } else {
-                gameTitle.innerHTML = "미니게임 진행중 🏃";
-                gameTitle.className = "text-[12px] font-extrabold text-gray-800";
-                gameDesc.innerText = `${6 - gameCount}개만 더 완료하면 티켓 획득!`;
-                gamePBar.className = "h-full bg-blue-500 rounded-full transition-all";
-            }
+    function executeLuckyDraw() {
+        if (state.luckyTickets <= 0) return;
+        
+        // 티켓 차감
+        state.luckyTickets -= 1;
+        renderDashboard();
 
-            // ==========================================
-            // [C] 통합 대시보드 업데이트
-            // ==========================================
-            let earned = (attDays * 0.01) + (gameCount * 0.03);
-            let totalPotential = (7 * 0.01) + (6 * 0.03); // 0.07 + 0.18 = 0.25
-            let remain = totalPotential - earned;
+        // 보상 랜덤 생성 (0.10 ~ 5.00 USDT)
+        pendingReward = (Math.random() * (5.0 - 0.1) + 0.1).toFixed(2);
+        
+        // 모달 데이터 세팅 및 노출
+        document.getElementById('wonAmount').innerText = `${pendingReward} USDT`;
+        document.getElementById('drawModal').style.display = 'flex';
 
-            // 티켓 발급 계산
-            let generatedTickets = 0;
-            if (attDays === 7) generatedTickets++;
-            if (gameCount === 6) generatedTickets++;
-            
-            let currentTickets = Math.max(0, generatedTickets - usedTickets);
+        // 폭죽 이펙트 (canvas-confetti)
+        confetti({
+            particleCount: 120,
+            spread: 80,
+            origin: { y: 0.6 },
+            colors: ['#00c880', '#ff3b30', '#ffd700', '#ffffff']
+        });
+    }
 
-            document.getElementById('totalEarned').innerText = earned.toFixed(2);
-            document.getElementById('totalRemain').innerText = remain.toFixed(2);
-            document.getElementById('ticketCount').innerText = currentTickets;
+    function closeModal() {
+        document.getElementById('drawModal').style.display = 'none';
+        // 보상 합산 및 업데이트
+        state.totalUsdt += parseFloat(pendingReward);
+        renderDashboard();
+    }
 
-            const ticketBtn = document.getElementById('topLuckyBtn');
-            if (currentTickets > 0) {
-                ticketBtn.disabled = false;
-                ticketBtn.className = "bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-6 py-2.5 rounded-xl text-sm font-black shadow-lg shadow-orange-500/40 animate-bounce cursor-pointer border border-orange-300";
-            } else {
-                ticketBtn.disabled = true;
-                ticketBtn.className = "bg-white/10 text-white/40 px-5 py-2.5 rounded-xl text-sm font-bold cursor-not-allowed border border-transparent";
-            }
-        }
+    // 초기화
+    window.onload = () => {
+        renderDashboard();
+        renderSections();
+    };
+</script>
 
-        // --- 럭키드로우 (티켓 사용) ---
-        function useTicket() {
-            usedTickets++;
-            const modal = document.getElementById('luckyModal');
-            const card = document.getElementById('luckyCard');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            setTimeout(() => {
-                card.classList.remove('scale-90', 'opacity-0');
-                card.classList.add('scale-100', 'opacity-100');
-            }, 10);
-            createConfetti();
-            syncSystem(); // 티켓 차감 UI 반영
-        }
-
-        function closeLuckyDraw() {
-            const modal = document.getElementById('luckyModal');
-            const card = document.getElementById('luckyCard');
-            card.classList.remove('scale-100', 'opacity-100');
-            card.classList.add('scale-90', 'opacity-0');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-            }, 300);
-        }
-
-        // --- 폭죽 애니메이션 ---
-        function createConfetti() {
-            const modal = document.getElementById('luckyModal');
-            const colors = ['#FFC700', '#FF3D00', '#4CAF50', '#2196F3', '#9C27B0'];
-            for(let i = 0; i < 60; i++) {
-                let conf = document.createElement('div');
-                conf.className = 'confetti';
-                conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                conf.style.left = '50%';
-                conf.style.top = '50%';
-                conf.style.borderRadius = Math.random() > 0.5 ? '50%' : '0px';
-                modal.appendChild(conf);
-                let angle = Math.random() * Math.PI * 2;
-                let velocity = 50 + Math.random() * 200;
-                let tx = Math.cos(angle) * velocity;
-                let ty = Math.sin(angle) * velocity - 100;
-                conf.animate([
-                    { transform: 'translate(-50%, -50%) scale(1) rotate(0deg)', opacity: 1 },
-                    { transform: `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(0) rotate(${Math.random() * 360}deg)`, opacity: 0 }
-                ], { duration: 1000 + Math.random() * 1500, easing: 'cubic-bezier(0.25, 1, 0.5, 1)' });
-                setTimeout(() => conf.remove(), 2500);
-            }
-        }
-
-        window.onload = () => {
-            syncSystem();
-        };
-    </script>
 </body>
 </html>
