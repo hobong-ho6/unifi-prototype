@@ -13,7 +13,7 @@
             --text-sub: #666666;
             --brand-green: #00c880;
             --dark-bar: #1a1a1a;
-            --mint-bg: #eaf7f0; /* 첨부 이미지의 배경색 추출 */
+            --mint-bg: #eaf7f0;
             --red-highlight: #ff3b30;
         }
 
@@ -26,7 +26,7 @@
         }
 
         .container {
-            max-width: 480px; /* 모바일 뷰 고정 */
+            max-width: 480px;
             margin: 0 auto;
             background-color: var(--card-bg);
             min-height: 100vh;
@@ -35,7 +35,7 @@
             overflow-x: hidden;
         }
 
-        /* --- 대시보드 영역 (이미지 레퍼런스 완벽 반영) --- */
+        /* --- 대시보드 영역 --- */
         .dashboard {
             background-color: var(--mint-bg);
             padding: 30px 20px 24px 20px;
@@ -57,7 +57,7 @@
             color: var(--text-main);
             margin-bottom: 24px;
             display: flex;
-            align-items: baseline; /* USDT 텍스트와 하단 라인 맞춤 */
+            align-items: baseline;
             gap: 8px;
             letter-spacing: -0.5px;
         }
@@ -134,12 +134,12 @@
             overflow-x: auto;
             scroll-snap-type: x mandatory;
             padding-bottom: 12px;
-            scrollbar-width: none; /* Firefox */
+            scrollbar-width: none;
         }
-        .carousel::-webkit-scrollbar { display: none; } /* Chrome */
+        .carousel::-webkit-scrollbar { display: none; }
 
         .mission-card {
-            flex: 0 0 calc(33.333% - 8px); /* 한 화면에 3개 노출, 스크롤 유도 */
+            flex: 0 0 calc(33.333% - 8px);
             scroll-snap-align: start;
             display: flex;
             flex-direction: column;
@@ -283,25 +283,25 @@
         totalUsdt: 12.50,
         luckyTickets: 2,
         
-        // Mock Mission Data (섹션별 5개 이상 노출되도록 구성)
+        // Mock Mission Data (전달받은 실제 이미지 URL 모두 매핑 완료)
         missions: [
             // 완료된 미션들 (ALL 탭 노출용)
-            { id: 1, name: "Merge Cat", type: "Short", rewardType: "USDT", rewardAmount: 0.03, status: "COMPLETED", endingSoon: false, img: "https://picsum.photos/id/1025/200/200" },
-            { id: 2, name: "Tap Tap Jello", type: "Short", rewardType: "USDT", rewardAmount: 0.03, status: "COMPLETED", endingSoon: false, img: "https://picsum.photos/id/1084/200/200" },
-            { id: 3, name: "Squishy Cat", type: "Short", rewardType: "USDT", rewardAmount: 0.03, status: "COMPLETED", endingSoon: false, img: "https://picsum.photos/id/1074/200/200" },
+            { id: 1, name: "Merge Cat", type: "Short", rewardType: "USDT", rewardAmount: 0.03, status: "COMPLETED", endingSoon: false, img: "https://obs.line-scdn.net:443/0hmpC2SfwtMl9-Sy2JQ-5NCCYePC4SOitKB30gJwMOODNNKS4IQ38IUgQjbwsaExNACVImYBswMxNbKyp5QVYiWVMYDgRTGhB-AVILQVsbNwwSKD51QVEISQcbCW4V" },
+            { id: 2, name: "Tap Tap Jello", type: "Short", rewardType: "USDT", rewardAmount: 0.03, status: "COMPLETED", endingSoon: false, img: "https://obs.line-scdn.net:443/0hkv6lhvyZNFkLFSuPNoxLDlFAOihnZC1MciMmIXZQPjU4dygOcgwgXHNFAw58WjhvfgwwTHBHCAJtRBVOcQwjVC90DGh6cBYOfiMwXHZqDA5kdyhvNhsnbWhuNjMuWQM" },
+            { id: 3, name: "Squishy Cat", type: "Short", rewardType: "USDT", rewardAmount: 0.03, status: "COMPLETED", endingSoon: false, img: "https://obs.line-scdn.net:443/0hDcqSN6NCG0xMKgSacZ1kGxZ_FT0gWwJZNRwJNDFvESB_SAcbNTMidypCRhckTzp9LTIhUSp5JxcqezpbNjMMQWhLI309TzkbORwfSTFVIykpSQBIOzMPWi9RGSZpZiw" },
 
-            // 마감 임박 미션들 (Ending Soon - 최소 5개)
+            // 마감 임박 미션들 (Ending Soon)
             { id: 4, name: "Soda Pop", type: "Short", rewardType: "USDT", rewardAmount: 0.03, status: "AVAILABLE", endingSoon: true, img: "https://obs.line-scdn.net:443/0hbiCjSLeSPUZ-EyONi5JCESZGMzcSYiRTByUvPgNWNypNcSERCyAHXwJsBR4YcQ9nQgkHSwRoPApbcyVgQQ4tQFNAAR1TQh9nAwoLVFhBFXIaSDF0RwkHUAdDBncV" },
             { id: 5, name: "Nyante Match", type: "Big Earn", rewardType: "LUCKY_DRAW", rewardAmount: 0, status: "AVAILABLE", endingSoon: true, img: "https://obs.line-scdn.net:443/0heeauEgtEOkpcDCTbh4hFHQZZNDswfSNfJTooMiFJMCZvbiYdJRYcVyFkAR02QgtdJDoQSzBfLBE6XRtdJhUtR3htAnstaRgdKToTLDFyAic2VxhsKzgDfj93OCB5QA0" },
             { id: 6, name: "Monster Hunt", type: "Short", rewardType: "USDT", rewardAmount: 0.05, status: "AVAILABLE", endingSoon: true, img: "https://obs.line-scdn.net:443/0hxTE3b46CJ3t4SjiRKiFYLCIfKQoUOz5uAXw1AwUPLRdLKDssAVAORBsYegoNKWMsDH4eHR4aGyAeGwZsAlMwdlwrH0oJLwUsDXw3Zh0iEDgVETwkRURrTxQxJRFdBhA" },
-            { id: 7, name: "Star Catcher", type: "Short", rewardType: "USDT", rewardAmount: 0.10, status: "AVAILABLE", endingSoon: true, img: "https://picsum.photos/id/1015/200/200" },
-            { id: 8, name: "Galaxy Rider", type: "Big Earn", rewardType: "USDT", rewardAmount: 2.50, status: "AVAILABLE", endingSoon: true, img: "https://picsum.photos/id/1022/200/200" },
+            { id: 7, name: "Star Catcher", type: "Short", rewardType: "USDT", rewardAmount: 0.10, status: "AVAILABLE", endingSoon: true, img: "https://obs.line-scdn.net:443/0hRxtQZGmHDVdJKBOSP6FyABN9AyYlWRRCMB4fLzRtBzt6ShEAMDInSjV4JTosc0h1PSYeNS56MQwveSxAMzEaWm1JNWY4TS8APB4nSWlWJW8-ZC9hPiYeYypTDz1sZDo" },
+            { id: 8, name: "Galaxy Rider", type: "Big Earn", rewardType: "USDT", rewardAmount: 2.50, status: "AVAILABLE", endingSoon: true, img: "https://obs.line-scdn.net:443/0hNXPmjfYCEXdtFA6qUZ5uIDdBHwYBZQhiFCIDDxBRGxtedg0gFA5dWEtEKiwFTAlCEiJdeQ5oFywLRTBgFw0Gekl1KUYccTMgGCIVehZ_TCwGWx1BGiJdQw5vEx1IWCY" },
 
-            // Short 미션들 (Short - 4, 6, 7번 포함, 총 5개 이상)
-            { id: 9, name: "Color Sort", type: "Short", rewardType: "USDT", rewardAmount: 0.02, status: "AVAILABLE", endingSoon: false, img: "https://picsum.photos/id/1040/200/200" },
-            { id: 10, name: "Block Puzzle", type: "Short", rewardType: "USDT", rewardAmount: 0.04, status: "AVAILABLE", endingSoon: false, img: "https://picsum.photos/id/1050/200/200" },
+            // Short 미션들 
+            { id: 9, name: "Color Sort", type: "Short", rewardType: "USDT", rewardAmount: 0.02, status: "AVAILABLE", endingSoon: false, img: "https://obs.line-scdn.net:443/0hmnTX50qRMkFpIS2cVbZNFjF0PDAFUCtUEBcgORRkOC1aQy4WEC8bfglzFRIeQi5OHDkEX09aMw1MQSpnVjwiR0RyDhpEcBBgFjghfhNJJygBQj5oFiw2VxBxCXAC" },
+            { id: 10, name: "Block Puzzle", type: "Short", rewardType: "USDT", rewardAmount: 0.04, status: "AVAILABLE", endingSoon: false, img: "https://obs.line-scdn.net:443/0hobiyxCLRME1UAC-180xPGgxVPjw4cSlYLTYiNSlFOiFnYiwaITUZQ3NVCAF6Y3ROaTMjQ3B7MQFxYChrax0gS3lTDBZ5URJsKxoKU3NVGAIkYDx_IA00Wy1QC3w_" },
 
-            // Big Earn 미션들 (Big Earn - 5, 8번 포함, 총 5개 이상)
+            // Big Earn 미션들
             { id: 11, name: "TokiToki Tsuri", type: "Big Earn", rewardType: "USDT", rewardAmount: 5.00, status: "AVAILABLE", endingSoon: false, img: "https://obs.line-scdn.net:443/0hDl60raRTG0MLSQRmOMlkFFEcFTJnOAJWcn8JO3YMES84KwcUclNWVmg2PBAmBSoQfkQITmUiDRhtGDpUcVAMTi8oI3J6LDkUfn8PfysiMBR-ETocNnwxVWgyGSkuBSw" },
             { id: 12, name: "RPG Legend", type: "Big Earn", rewardType: "USDT", rewardAmount: 15.00, status: "AVAILABLE", endingSoon: false, img: "https://obs.line-scdn.net:443/0hUSH43g9bCnx1TRWzey91Ky0YBA0ZPBNpDHsYBAgIABBGLxYrSnsZEgkdCygeFShzSXggZRs2CzBQLRJaSlAaelgeNidYHChdClceZQ0YIkgTAzhVSUAOagwdMU0e" },
             { id: 13, name: "Casino Royale", type: "Big Earn", rewardType: "USDT", rewardAmount: 10.00, status: "AVAILABLE", endingSoon: false, img: "https://obs.line-scdn.net:443/0hHIHHvbT6F2Z1MQigPyloMS9kGRcZQA5zDAcFHgh0HQpGUwsxDCs-Z1BhPwMCUiVDFigxcwtjOz0TYDZxDygAa1FQL1cEVDUxAAcTcw1jFTVYfyZMAgctcBZKFQxQfSA" }
@@ -338,7 +338,7 @@
         const container = document.getElementById('missionContainer');
         let html = '';
 
-        // 1. 곧 종료되는 미션 (Ending Soon - 최소 5개 구성됨)
+        // 1. 곧 종료되는 미션
         const endingMissions = state.missions.filter(m => m.endingSoon && m.status === 'AVAILABLE');
         if (endingMissions.length > 0) {
             const sumUsdt = endingMissions.filter(m => m.rewardType === 'USDT').reduce((sum, m) => sum + m.rewardAmount, 0);
@@ -356,7 +356,7 @@
             `;
         }
 
-        // 2. Short 미션 (최소 5개 구성됨)
+        // 2. Short 미션
         const shortMissions = state.missions.filter(m => m.type === 'Short' && m.status === 'AVAILABLE');
         if (shortMissions.length > 0) {
             const sumUsdt = shortMissions.filter(m => m.rewardType === 'USDT').reduce((sum, m) => sum + m.rewardAmount, 0);
@@ -368,7 +368,7 @@
             `;
         }
 
-        // 3. Big Earn 미션 (최소 5개 구성됨)
+        // 3. Big Earn 미션
         const bigEarnMissions = state.missions.filter(m => m.type === 'Big Earn' && m.status === 'AVAILABLE');
         if (bigEarnMissions.length > 0) {
             html += `
@@ -379,7 +379,7 @@
             `;
         }
 
-        // 4. 모든 미션 (완료 포함 - 그리드 형태)
+        // 4. 모든 미션
         html += `
             <div class="section">
                 <div class="section-title">📱 모든 USDT 미션 보상</div>
@@ -402,18 +402,14 @@
     function executeLuckyDraw() {
         if (state.luckyTickets <= 0) return;
         
-        // 티켓 차감
         state.luckyTickets -= 1;
         renderDashboard();
 
-        // 보상 랜덤 생성 (0.10 ~ 5.00 USDT)
         pendingReward = (Math.random() * (5.0 - 0.1) + 0.1).toFixed(2);
         
-        // 모달 데이터 세팅 및 노출
         document.getElementById('wonAmount').innerText = `${pendingReward} USDT`;
         document.getElementById('drawModal').style.display = 'flex';
 
-        // 폭죽 이펙트 (canvas-confetti)
         confetti({
             particleCount: 120,
             spread: 80,
@@ -424,12 +420,10 @@
 
     function closeModal() {
         document.getElementById('drawModal').style.display = 'none';
-        // 보상 합산 및 업데이트
         state.totalUsdt += parseFloat(pendingReward);
         renderDashboard();
     }
 
-    // 초기화
     window.onload = () => {
         renderDashboard();
         renderSections();
