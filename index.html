@@ -320,7 +320,7 @@
         const barText = isCompleted ? `완료 +${mission.rewardAmount}` : rewardText;
         const checkBadge = isCompleted ? `<div class="check-badge">✓</div>` : '';
         return `
-            <div class="mission-card" onclick="alert('${mission.name} 미션 페이지로 이동합니다.')">
+            <div class="mission-card" onclick="window.location.href='mission_detail.html'">
                 <div class="img-wrapper"><img src="${mission.img}" alt="${mission.name}">${checkBadge}<div class="reward-bar ${barClass}">${barText}</div></div>
                 <div class="app-name">${mission.name}</div>
             </div>`;
