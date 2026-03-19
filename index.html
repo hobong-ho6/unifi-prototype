@@ -46,39 +46,24 @@
             margin-bottom: 32px;
         }
 
-        /* 클릭 가능한 동선임을 명시 */
-        .clickable-area {
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-        .clickable-area:active {
-            opacity: 0.6;
-        }
-
-        .dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 6px;
-        }
-
         .dashboard-title {
             font-size: 15px;
             color: #555;
             font-weight: 700;
+            margin-bottom: 8px;
         }
 
-        .icon-arrow-right {
-            color: #999;
-            font-size: 16px;
-            font-weight: bold;
+        .usdt-amount-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
         }
 
         .usdt-amount {
             font-size: 40px;
             font-weight: 900;
             color: var(--text-main);
-            margin-bottom: 24px;
             display: flex;
             align-items: baseline;
             gap: 8px;
@@ -89,6 +74,28 @@
             font-size: 24px; 
             color: var(--brand-green); 
             font-weight: 800; 
+        }
+
+        /* 신규: 리워드 히스토리 버튼 */
+        .btn-history {
+            background-color: #ffffff;
+            color: var(--text-main);
+            border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s;
+        }
+
+        .btn-history:active {
+            transform: scale(0.96);
+            background-color: #f9f9f9;
         }
 
         .lucky-draw-box {
@@ -178,12 +185,10 @@
         .sheet-title { font-size: 20px; font-weight: 800; }
         .btn-sheet-close { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-main); }
 
-        /* 탭 스타일 */
         .sheet-tabs { display: flex; border-bottom: 1px solid #eee; margin-bottom: 24px; }
         .tab { padding: 0 16px 12px 16px; font-size: 16px; font-weight: 800; color: #ccc; cursor: pointer; }
         .tab.active { color: var(--text-main); border-bottom: 2px solid var(--text-main); }
 
-        /* 내역 요약 영역 */
         .history-summary { margin-bottom: 24px; }
         .history-summary-title { font-size: 18px; font-weight: 800; margin-bottom: 12px; }
         .history-total-amount { display: flex; align-items: center; gap: 6px; font-size: 24px; font-weight: 900; margin-bottom: 8px; }
@@ -194,7 +199,6 @@
 
         .history-filter { font-size: 14px; font-weight: 700; color: var(--text-main); margin-bottom: 16px; display: inline-block; cursor: pointer; }
 
-        /* 리스트 아이템 스타일 */
         .history-list { display: flex; flex-direction: column; gap: 12px; }
         .history-item { background-color: var(--gray-bg); border-radius: 16px; padding: 16px; display: flex; align-items: center; justify-content: space-between; }
         .history-item-left { display: flex; align-items: center; gap: 16px; }
@@ -218,14 +222,14 @@
 
 <div class="container">
     <div class="dashboard">
-        <div class="clickable-area" onclick="openHistorySheet()">
-            <div class="dashboard-header">
-                <div class="dashboard-title">지금까지 얻은 USDT 리워드</div>
-                <div class="icon-arrow-right">&gt;</div>
-            </div>
+        <div class="dashboard-title">지금까지 얻은 USDT 리워드</div>
+        <div class="usdt-amount-container">
             <div class="usdt-amount" id="totalUsdtDisplay">
                 12.50 <span>USDT</span>
             </div>
+            <button class="btn-history" onclick="openHistorySheet()">
+                리워드 히스토리 <span style="color:#999; font-size: 11px;">&gt;</span>
+            </button>
         </div>
         <div class="lucky-draw-box">
             <div class="lucky-info">
@@ -288,9 +292,14 @@
             { id: 4, name: "Soda Pop", type: "Short", rewardType: "USDT", rewardAmount: 0.03, status: "AVAILABLE", endingSoon: true, img: "https://obs.line-scdn.net:443/0hbiCjSLeSPUZ-EyONi5JCESZGMzcSYiRTByUvPgNWNypNcSERCyAHXwJsBR4YcQ9nQgkHSwRoPApbcyVgQQ4tQFNAAR1TQh9nAwoLVFhBFXIaSDF0RwkHUAdDBncV" },
             { id: 5, name: "Nyante Match", type: "Big Earn", rewardType: "LUCKY_DRAW", rewardAmount: 0, status: "AVAILABLE", endingSoon: true, img: "https://obs.line-scdn.net:443/0heeauEgtEOkpcDCTbh4hFHQZZNDswfSNfJTooMiFJMCZvbiYdJRYcVyFkAR02QgtdJDoQSzBfLBE6XRtdJhUtR3htAnstaRgdKToTLDFyAic2VxhsKzgDfj93OCB5QA0" },
             { id: 6, name: "Monster Hunt", type: "Short", rewardType: "USDT", rewardAmount: 0.05, status: "AVAILABLE", endingSoon: true, img: "https://obs.line-scdn.net:443/0hxTE3b46CJ3t4SjiRKiFYLCIfKQoUOz5uAXw1AwUPLRdLKDssAVAORBsYegoNKWMsDH4eHR4aGyAeGwZsAlMwdlwrH0oJLwUsDXw3Zh0iEDgVETwkRURrTxQxJRFdBhA" },
-            { id: 7, name: "Star Catcher", type: "Short", rewardType: "USDT", rewardAmount: 0.10, status: "AVAILABLE", endingSoon: true, img: "https://obs.line-scdn.net:443/0hRxtQZGmHDVdJKBOSP6FyABN9AyYlWRRCMB4fLzRtBzt6ShEAMDInSjV4JTosc0h1PSYeNS56MQwveSxAMzEaWm1JNWY4TS8APB4nSWlWJW8-ZC9hPiYeYypTDz1sZDo" }
+            { id: 7, name: "Star Catcher", type: "Short", rewardType: "USDT", rewardAmount: 0.10, status: "AVAILABLE", endingSoon: true, img: "https://obs.line-scdn.net:443/0hRxtQZGmHDVdJKBOSP6FyABN9AyYlWRRCMB4fLzRtBzt6ShEAMDInSjV4JTosc0h1PSYeNS56MQwveSxAMzEaWm1JNWY4TS8APB4nSWlWJW8-ZC9hPiYeYypTDz1sZDo" },
+            { id: 8, name: "Galaxy Rider", type: "Big Earn", rewardType: "USDT", rewardAmount: 2.50, status: "AVAILABLE", endingSoon: true, img: "https://obs.line-scdn.net:443/0hNXPmjfYCEXdtFA6qUZ5uIDdBHwYBZQhiFCIDDxBRGxtedg0gFA5dWEtEKiwFTAlCEiJdeQ5oFywLRTBgFw0Gekl1KUYccTMgGCIVehZ_TCwGWx1BGiJdQw5vEx1IWCY" },
+            { id: 9, name: "Color Sort", type: "Short", rewardType: "USDT", rewardAmount: 0.02, status: "AVAILABLE", endingSoon: false, img: "https://obs.line-scdn.net:443/0hmnTX50qRMkFpIS2cVbZNFjF0PDAFUCtUEBcgORRkOC1aQy4WEC8bfglzFRIeQi5OHDkEX09aMw1MQSpnVjwiR0RyDhpEcBBgFjghfhNJJygBQj5oFiw2VxBxCXAC" },
+            { id: 10, name: "Block Puzzle", type: "Short", rewardType: "USDT", rewardAmount: 0.04, status: "AVAILABLE", endingSoon: false, img: "https://obs.line-scdn.net:443/0hobiyxCLRME1UAC-180xPGgxVPjw4cSlYLTYiNSlFOiFnYiwaITUZQ3NVCAF6Y3ROaTMjQ3B7MQFxYChrax0gS3lTDBZ5URJsKxoKU3NVGAIkYDx_IA00Wy1QC3w_" },
+            { id: 11, name: "TokiToki Tsuri", type: "Big Earn", rewardType: "USDT", rewardAmount: 5.00, status: "AVAILABLE", endingSoon: false, img: "https://obs.line-scdn.net:443/0hDl60raRTG0MLSQRmOMlkFFEcFTJnOAJWcn8JO3YMES84KwcUclNWVmg2PBAmBSoQfkQITmUiDRhtGDpUcVAMTi8oI3J6LDkUfn8PfysiMBR-ETocNnwxVWgyGSkuBSw" },
+            { id: 12, name: "RPG Legend", type: "Big Earn", rewardType: "USDT", rewardAmount: 15.00, status: "AVAILABLE", endingSoon: false, img: "https://obs.line-scdn.net:443/0hUSH43g9bCnx1TRWzey91Ky0YBA0ZPBNpDHsYBAgIABBGLxYrSnsZEgkdCygeFShzSXggZRs2CzBQLRJaSlAaelgeNidYHChdClceZQ0YIkgTAzhVSUAOagwdMU0e" },
+            { id: 13, name: "Casino Royale", type: "Big Earn", rewardType: "USDT", rewardAmount: 10.00, status: "AVAILABLE", endingSoon: false, img: "https://obs.line-scdn.net:443/0hHIHHvbT6F2Z1MQigPyloMS9kGRcZQA5zDAcFHgh0HQpGUwsxDCs-Z1BhPwMCUiVDFigxcwtjOz0TYDZxDygAa1FQL1cEVDUxAAcTcw1jFTVYfyZMAgctcBZKFQxQfSA" }
         ],
-        // 내역 데이터 추가 (초기값은 완료된 미션들)
         history: [
             { name: "Unifi Mini Game", desc: "미션 참여 완료", amount: 0.03, img: "https://obs.line-scdn.net:443/0hDcqSN6NCG0xMKgSacZ1kGxZ_FT0gWwJZNRwJNDFvESB_SAcbNTMidypCRhckTzp9LTIhUSp5JxcqezpbNjMMQWhLI309TzkbORwfSTFVIykpSQBIOzMPWi9RGSZpZiw" },
             { name: "Unifi Mini Game", desc: "미션 참여 완료", amount: 0.03, img: "https://obs.line-scdn.net:443/0hkv6lhvyZNFkLFSuPNoxLDlFAOihnZC1MciMmIXZQPjU4dygOcgwgXHNFAw58WjhvfgwwTHBHCAJtRBVOcQwjVC90DGh6cBYOfiMwXHZqDA5kdyhvNhsnbWhuNjMuWQM" },
@@ -298,14 +307,12 @@
         ]
     };
 
-    // --- 기본 렌더링 ---
     function renderDashboard() {
         document.getElementById('totalUsdtDisplay').innerHTML = `${state.totalUsdt.toFixed(2)} <span>USDT</span>`;
         document.getElementById('ticketCountDisplay').innerText = `${state.luckyTickets}개 보유`;
         document.getElementById('btnDraw').disabled = state.luckyTickets <= 0;
     }
 
-    // (기존 미션 렌더링 로직 생략 - 그대로 동작함)
     function createCardHTML(mission) {
         const isCompleted = mission.status === 'COMPLETED';
         const rewardText = mission.rewardType === 'LUCKY_DRAW' ? '뽑기권 1장' : `+${mission.rewardAmount.toFixed(2)} USDT`;
@@ -332,6 +339,12 @@
         if (shortMissions.length > 0) {
             html += `<div class="section"><div class="section-title">⚡ 1분씩 투자하고</div><div class="section-subtitle">총 <span class="highlight-green">0.18 USDT</span>를 얻어보세요</div><div class="carousel">${shortMissions.map(createCardHTML).join('')}</div></div>`;
         }
+        const bigEarnMissions = state.missions.filter(m => m.type === 'Big Earn' && m.status === 'AVAILABLE');
+        if (bigEarnMissions.length > 0) {
+            html += `<div class="section"><div class="section-title">💎 큰 재미 큰 보상</div><div class="carousel">${bigEarnMissions.map(createCardHTML).join('')}</div></div>`;
+        }
+        html += `<div class="section"><div class="section-title">📱 모든 USDT 미션 보상</div><div class="carousel" style="flex-wrap: wrap; gap: 16px 2%;">${state.missions.map(m => `<div style="flex: 0 0 32%; margin-bottom: 8px;">${createCardHTML(m).replace('class="mission-card"', 'class="mission-card" style="width:100%"')}</div>`).join('')}</div></div>`;
+        
         container.innerHTML = html;
         startKstMidnightTimer();
     }
@@ -355,11 +368,9 @@
 
     // --- 바텀 시트 (내역) 로직 ---
     function renderHistorySheet() {
-        // 총 금액 업데이트
         document.getElementById('sheetTotalUsdt').innerText = state.totalUsdt.toFixed(2);
         document.getElementById('sheetUsdEq').innerText = `(≈$${state.totalUsdt.toFixed(2)})`;
 
-        // 리스트 업데이트
         const listContainer = document.getElementById('historyListContainer');
         listContainer.innerHTML = state.history.map(item => `
             <div class="history-item">
@@ -376,19 +387,16 @@
     }
 
     function openHistorySheet() {
-        renderHistorySheet(); // 열 때 최신 데이터로 업데이트
+        renderHistorySheet(); 
         document.getElementById('historySheet').classList.add('show');
-        // 스크롤 방지
         document.body.style.overflow = 'hidden';
     }
 
     function closeHistorySheet() {
         document.getElementById('historySheet').classList.remove('show');
-        // 스크롤 복구
         document.body.style.overflow = '';
     }
 
-    // 오버레이(배경) 클릭 시 시트 닫기
     function handleSheetClick(event) {
         if (event.target.id === 'historySheet') {
             closeHistorySheet();
@@ -417,16 +425,14 @@
     function closeModal() {
         document.getElementById('drawModal').style.display = 'none';
         
-        // 보상 합산
         state.totalUsdt += parseFloat(pendingReward);
         renderDashboard();
 
-        // 내역(History)의 가장 상단에 럭키드로우 결과 추가
         state.history.unshift({
             name: "럭키드로우 당첨",
             desc: "보상 수령 완료",
             amount: parseFloat(pendingReward),
-            img: "https://obs.line-scdn.net:443/0hhef2hF5uOEx3Cz21d4hEGVNIOgM2dAN_EAs4ISNBaVUjdQd7S1k9JngdOVR0clwrdQg3I31BblB_JAd8Tg" // 선물상자 임시 이미지
+            img: "https://obs.line-scdn.net:443/0hhef2hF5uOEx3Cz21d4hEGVNIOgM2dAN_EAs4ISNBaVUjdQd7S1k9JngdOVR0clwrdQg3I31BblB_JAd8Tg"
         });
     }
 
